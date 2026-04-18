@@ -1,26 +1,76 @@
+/* ============================================
+   🎨 ESTILOS GLOBALES - LA IMPECABLE
+   ============================================
+   Aquí van los estilos que afectan a TODA la web:
+   fuentes, animaciones, scrollbar, etc.
+   ============================================ */
+
+/* Importar Tailwind CSS */
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Importar fuentes de Google */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
+/* ── Estilos base ── */
+
+body {
+  background: #0A0E14;
+  color: #E8E6E1;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Texto seleccionado: fondo dorado */
+::selection {
+  background: #C9A84C;
+  color: #0A0E14;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Scrollbar personalizada (solo Chrome/Edge) */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0A0E14;
+}
+::-webkit-scrollbar-thumb {
+  background: #5A6A7C;
+  border-radius: 3px;
+}
+
+/* ── Fuentes ── */
+
+.font-serif {
+  font-family: 'Playfair Display', serif;
+}
+
+.font-sans {
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ── Animaciones ── */
+
+/* Entrada con desvanecimiento hacia arriba */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.fade-in {
+  animation: fadeInUp 0.7s ease forwards;
+  opacity: 0;
+}
+
+/* Pulso suave (para el indicador de scroll) */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-pulse-slow {
+  animation: pulse 2s ease infinite;
 }
