@@ -12,7 +12,7 @@ const SERVICES = [
     price: 60,
     time: "~2h",
     desc: "Interior profundo + exterior impecable. Aspirado completo, limpieza de salpicadero, paneles, cristales, carrocería y llantas.",
-    icon: "🚿",
+    icon: "Droplets",
     highlight: false,
   },
   {
@@ -21,7 +21,7 @@ const SERVICES = [
     price: 60,
     time: "~1h + secado",
     desc: "Limpieza profesional con máquina de inyección-extracción. Ideal para manchas, olores y suciedad incrustada en asientos y alfombrillas.",
-    icon: "🛋️",
+    icon: "Armchair",
     highlight: false,
   },
   {
@@ -30,7 +30,7 @@ const SERVICES = [
     price: 110,
     time: "~3h + secado",
     desc: "El tratamiento más completo: lavado integral más limpieza profunda de tapicería. Tu coche como recién salido del concesionario.",
-    icon: "✨",
+    icon: "Sparkles",
     highlight: true,
   },
   {
@@ -39,7 +39,7 @@ const SERVICES = [
     price: 120,
     time: "~3h",
     desc: "Lavado completo más encerado protector de carrocería. Brillo duradero y protección contra los elementos.",
-    icon: "💎",
+    icon: "Gem",
     highlight: false,
   },
   {
@@ -48,7 +48,7 @@ const SERVICES = [
     price: 50,
     time: "~45min",
     desc: "Recupera la transparencia original de tus faros. Mejora la visibilidad y el aspecto de tu vehículo.",
-    icon: "💡",
+    icon: "Lightbulb",
     highlight: false,
   },
   {
@@ -57,7 +57,7 @@ const SERVICES = [
     price: 30,
     time: "~30min",
     desc: "Eliminación de olores, bacterias y alérgenos. Ideal tras transporte de mascotas, tabaco o humedad.",
-    icon: "🌬️",
+    icon: "Wind",
     highlight: false,
   },
 ];

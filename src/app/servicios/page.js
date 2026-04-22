@@ -1,5 +1,8 @@
 import Link from "next/link";
 import SERVICES from "@/data/services";
+import { Droplets, Armchair, Sparkles, Gem, Lightbulb, Wind } from "lucide-react";
+
+const ICONS = { Droplets, Armchair, Sparkles, Gem, Lightbulb, Wind };
 
 export const metadata = {
   title: "Servicios",
@@ -9,6 +12,11 @@ export const metadata = {
     canonical: "https://laimpecable.es/servicios",
   },
 };
+
+function ServiceIcon({ name }) {
+  const Icon = ICONS[name];
+  return Icon ? <Icon size={28} color="#C9A84C" strokeWidth={1.5} /> : null;
+}
 
 const WA_NUMBER = "34607445305";
 
@@ -80,7 +88,7 @@ export default function ServiciosPage() {
               {/* Info */}
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="text-3xl">{service.icon}</span>
+                  <ServiceIcon name={service.icon} />
                   <h2 className="font-serif text-[22px] font-bold text-[#E8E6E1]">
                     {service.name}
                   </h2>

@@ -11,10 +11,13 @@
 "use client";
 
 import { useState } from "react";
+import { Droplets, Armchair, Sparkles, Gem, Lightbulb, Wind } from "lucide-react";
+
+const ICONS = { Droplets, Armchair, Sparkles, Gem, Lightbulb, Wind };
 
 export default function ServiceCard({ service, index }) {
-  // Estado para controlar si el ratón está encima
   const [hovered, setHovered] = useState(false);
+  const Icon = ICONS[service.icon];
 
   return (
     <div
@@ -41,7 +44,9 @@ export default function ServiceCard({ service, index }) {
       )}
 
       {/* Icono */}
-      <div className="text-4xl mb-4">{service.icon}</div>
+      <div className="mb-4 inline-flex items-center justify-center p-[10px] rounded-[10px] bg-[rgba(201,168,76,0.1)]">
+        {Icon && <Icon size={36} color="#C9A84C" strokeWidth={2} />}
+      </div>
 
       {/* Nombre del servicio */}
       <h3 className="font-serif text-[22px] font-bold text-[#E8E6E1] mb-2">
