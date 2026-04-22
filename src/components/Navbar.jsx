@@ -48,6 +48,12 @@ export default function Navbar() {
           >
             Contacto
           </Link>
+          <Link
+            href="/sobre-nosotros"
+            className="font-sans text-sm font-medium text-[#8A9AAC] hover:text-[#C9A84C] transition-colors tracking-wide outline-none"
+          >
+            Nosotros
+          </Link>
           <a
             href={WA_LINK}
             target="_blank"
@@ -102,6 +108,13 @@ export default function Navbar() {
             className="font-sans text-sm font-medium text-[#8A9AAC] hover:text-[#C9A84C] transition-colors tracking-wide outline-none"
           >
             Contacto
+          </Link>
+          <Link
+            href="/sobre-nosotros"
+            onClick={() => setMenuOpen(false)}
+            className="font-sans text-sm font-medium text-[#8A9AAC] hover:text-[#C9A84C] transition-colors tracking-wide outline-none"
+          >
+            Nosotros
           </Link>
           <a
             href={WA_LINK}
