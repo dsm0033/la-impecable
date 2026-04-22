@@ -91,7 +91,7 @@ export default function HomePage() {
               Ver servicios
             </a>
             {/* ⚠️ DIEGO: Cambia el número de teléfono aquí */}
-            <a href="tel:+34600000000"
+            <a href="tel:+34607445305"
               className="font-sans text-sm font-semibold px-8 py-3.5 bg-transparent text-[#C9A84C] rounded-full tracking-wide border border-[rgba(201,168,76,0.27)] hover:bg-[rgba(201,168,76,0.1)] transition-colors"
             >
               Llamar ahora
@@ -209,7 +209,7 @@ export default function HomePage() {
         </p>
         {/* ⚠️ DIEGO: Cambia el número de WhatsApp aquí */}
         <a
-          href="https://wa.me/34600000000"
+          href="https://wa.me/34607445305"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 font-sans text-[15px] font-semibold px-10 py-4 bg-[#C9A84C] text-[#0A0E14] rounded-full tracking-wide hover:bg-[#A68A3A] transition-colors"
