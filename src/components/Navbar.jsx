@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 const WA_LINK =
@@ -12,9 +13,14 @@ const NAV_LINKS = [
   { href: "/sobre-nosotros", label: "Nosotros" },
 ];
 
+const PORTAL_ROUTES = ['/admin', '/empleado', '/cliente', '/login']
+
 export default function Navbar() {
+  const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  if (PORTAL_ROUTES.some(r => pathname.startsWith(r))) return null
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
