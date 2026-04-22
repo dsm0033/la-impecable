@@ -12,6 +12,7 @@
 // ============================================
 
 import "./globals.css";
+import Navbar from "@/components/Navbar";
 
 export const metadata = {
   metadataBase: new URL("https://laimpecable.es"),
@@ -73,6 +74,7 @@ export default function RootLayout({ children }) {
     // lang="es" le dice al navegador y a Google que la web está en español
     <html lang="es">
       <body className="font-sans">
+        <Navbar />
         {/* {children} es donde se renderiza cada página */}
         {children}
       </body>
