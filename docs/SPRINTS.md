@@ -77,7 +77,16 @@
 
 ## 📋 SPRINT 6 — "Portal Cliente"
 **Fechas:** Semanas 11-12
-**Objetivo:** Portal del cliente con historial y facturas
+**Objetivo:** Portal del cliente con historial, facturas y login con Google
+
+| Tarea | Estado |
+|---|---|
+| Registro de cliente | 📋 |
+| Perfil del cliente (datos + vehículos) | 📋 |
+| Vista "Mi historial" | 📋 |
+| Descargar facturas en PDF | 📋 |
+| **Login con Google (OAuth)** | 📋 |
+| Crear perfil automático al primer login con Google | 📋 |
 
 ---
 
