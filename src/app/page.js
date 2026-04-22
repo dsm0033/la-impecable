@@ -15,6 +15,7 @@
 
 "use client";
 
+import Link from "next/link";
 import SERVICES from "@/data/services";
 import ServiceCard from "@/components/ServiceCard";
 import AnimatedCounter from "@/components/AnimatedCounter";
@@ -85,14 +86,14 @@ export default function HomePage() {
           <div className="fade-in flex gap-4 justify-center flex-wrap"
             style={{ animationDelay: "0.5s" }}
           >
-            <a href="#servicios"
+            <Link href="/servicios"
               className="font-sans text-sm font-semibold px-8 py-3.5 bg-[#C9A84C] text-[#0A0E14] rounded-full tracking-wide hover:bg-[#A68A3A] transition-colors"
             >
-              Ver servicios
-            </a>
+              Servicios
+            </Link>
             {/* ⚠️ DIEGO: Cambia el número de teléfono aquí */}
             <a href="tel:+34607445305"
-              className="font-sans text-sm font-semibold px-8 py-3.5 bg-transparent text-[#C9A84C] rounded-full tracking-wide border border-[rgba(201,168,76,0.27)] hover:bg-[rgba(201,168,76,0.1)] transition-colors"
+              className="font-sans text-sm font-semibold px-8 py-3.5 bg-[#C9A84C] text-[#0A0E14] rounded-full tracking-wide hover:bg-[#A68A3A] transition-colors"
             >
               Llamar ahora
             </a>
