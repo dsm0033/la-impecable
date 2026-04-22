@@ -76,7 +76,7 @@ export default function InternoPage() {
             IMPECABLE
           </h2>
           <p className="font-sans text-xs text-[#8A9AAC] mt-0.5">
-            Estética Avanzada · Checklist de servicio
+            Cuidado Profesional del Vehículo · Checklist de servicio
           </p>
         </div>
         <div className="flex gap-2">

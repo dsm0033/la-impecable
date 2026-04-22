@@ -16,7 +16,7 @@ import "./globals.css";
 export const metadata = {
   metadataBase: new URL("https://laimpecable.es"),
   title: {
-    default: "IMPECABLE | Estética Avanzada · Sanlúcar de Barrameda",
+    default: "IMPECABLE | Cuidado Profesional del Vehículo · Sanlúcar de Barrameda",
     template: "%s | IMPECABLE",
   },
   description:
@@ -37,7 +37,7 @@ export const metadata = {
     locale: "es_ES",
     url: "https://laimpecable.es",
     siteName: "Impecable",
-    title: "IMPECABLE | Estética Avanzada",
+    title: "IMPECABLE | Cuidado Profesional del Vehículo",
     description:
       "Estética avanzada de vehículos en Sanlúcar de Barrameda. Tratamientos de precisión y detailing profesional.",
     images: [
@@ -45,13 +45,13 @@ export const metadata = {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "IMPECABLE - Estética Avanzada · Sanlúcar de Barrameda",
+        alt: "IMPECABLE - Cuidado Profesional del Vehículo · Sanlúcar de Barrameda",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "IMPECABLE | Estética Avanzada",
+    title: "IMPECABLE | Cuidado Profesional del Vehículo",
     description:
       "Estética avanzada de vehículos en Sanlúcar de Barrameda.",
     images: ["/og-image.jpg"],

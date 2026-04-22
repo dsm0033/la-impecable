@@ -75,7 +75,7 @@ export default function HomePage() {
           <p className="fade-in font-sans font-light text-[#8A9AAC] leading-relaxed max-w-[540px] mx-auto mb-10"
             style={{ fontSize: "clamp(16px, 2.5vw, 20px)", animationDelay: "0.35s" }}
           >
-            Estética Avanzada · Sanlúcar de Barrameda
+            Cuidado Profesional del Vehículo · Sanlúcar de Barrameda
             <br />
             Cada detalle tratado con{" "}
             <span className="text-[#C9A84C] font-medium">precisión y rigor</span>.
@@ -223,7 +223,7 @@ export default function HomePage() {
           ════════════════════════════════════════════ */}
       <footer className="text-center px-6 py-8 border-t border-[#1E2A38]">
         <p className="font-sans text-xs text-[#5A6A7C]">
-          © 2026 Impecable · Estética Avanzada · Sanlúcar de Barrameda, Cádiz
+          © 2026 Impecable · Cuidado Profesional del Vehículo · Sanlúcar de Barrameda, Cádiz
         </p>
       </footer>
     </div>
