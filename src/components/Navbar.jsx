@@ -38,9 +38,15 @@ export default function Navbar() {
         <nav className="hidden sm:flex items-center gap-7">
           <Link
             href="/servicios"
-            className="font-sans text-sm font-medium text-[#8A9AAC] hover:text-[#C9A84C] transition-colors tracking-wide"
+            className="font-sans text-sm font-medium text-[#8A9AAC] hover:text-[#C9A84C] transition-colors tracking-wide outline-none"
           >
             Servicios
+          </Link>
+          <Link
+            href="/contacto"
+            className="font-sans text-sm font-medium text-[#8A9AAC] hover:text-[#C9A84C] transition-colors tracking-wide outline-none"
+          >
+            Contacto
           </Link>
           <a
             href={WA_LINK}
@@ -86,9 +92,16 @@ export default function Navbar() {
           <Link
             href="/servicios"
             onClick={() => setMenuOpen(false)}
-            className="font-sans text-sm font-medium text-[#8A9AAC] hover:text-[#C9A84C] transition-colors tracking-wide"
+            className="font-sans text-sm font-medium text-[#8A9AAC] hover:text-[#C9A84C] transition-colors tracking-wide outline-none"
           >
             Servicios
+          </Link>
+          <Link
+            href="/contacto"
+            onClick={() => setMenuOpen(false)}
+            className="font-sans text-sm font-medium text-[#8A9AAC] hover:text-[#C9A84C] transition-colors tracking-wide outline-none"
+          >
+            Contacto
           </Link>
           <a
             href={WA_LINK}
