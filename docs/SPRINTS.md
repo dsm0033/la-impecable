@@ -47,19 +47,19 @@
 
 ---
 
-## 🔄 SPRINT 3 — "Base de Datos"
-**Fechas:** Semanas 5-6 (inicio previsto: 2026-04-28)
+## ✅ SPRINT 3 — "Base de Datos"
+**Fechas:** Semanas 5-6 (inicio: 2026-04-22 — finalizado: 2026-04-22)
 **Objetivo:** Supabase conectado + login + roles
-**Estado:** PENDIENTE
+**Estado:** COMPLETADO
 
 | Tarea | Estado |
 |---|---|
-| Crear proyecto Supabase | 📋 |
-| Diseñar y crear tablas (businesses, users, services, checklists) | 📋 |
-| Conectar Supabase con Next.js | 📋 |
-| Sistema de login unificado | 📋 |
-| Middleware de protección de rutas por rol | 📋 |
-| Seed de datos iniciales | 📋 |
+| Crear proyecto Supabase | ✅ |
+| Diseñar y crear tablas (businesses, users, services, checklists) | ✅ |
+| Conectar Supabase con Next.js | ✅ |
+| Sistema de login unificado | ✅ |
+| Proxy de protección de rutas por rol | ✅ |
+| Seed de datos iniciales | ✅ |
 
 ---
 
