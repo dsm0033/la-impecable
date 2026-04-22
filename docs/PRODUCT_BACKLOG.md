@@ -126,18 +126,31 @@
 
 ---
 
-## FASE 8 — Plataforma SaaS
+## FASE 8 — Módulos de Inteligencia Artificial
+
+Implementación con Claude API (Anthropic). Coste estimado: <1€/mes para el volumen actual de La Impecable.
+
+| ID | Módulo | Prioridad | Estado | Notas |
+|---|---|---|---|---|
+| F8-01 | Diagnóstico visual del vehículo | 🟡 | 📋 | Cliente sube fotos → Claude Vision → recomendación de servicio + precio |
+| F8-02 | Análisis de reseñas | 🟡 | 📋 | Reseña nueva → Claude API → clasificación sentimiento + tema → dashboard |
+| F8-03 | Predicción de demanda | 🟢 | 📋 | Historial Supabase + API meteorológica Open-Meteo → alerta semanal en panel admin |
+| F8-04 | Precios dinámicos | 🟢 | 📋 | Tabla `pricing_rules` en Supabase con reglas configurables por Diego desde panel admin |
+
+---
+
+## FASE 9 — Plataforma SaaS
 
 | ID | Tarea | Prioridad | Estado |
 |---|---|---|---|
-| F8-01 | Multi-tenant completo | 🔴 | 📋 |
-| F8-02 | Subdominios por negocio | 🔴 | 📋 |
-| F8-03 | Onboarding de nuevo negocio | 🔴 | 📋 |
-| F8-04 | Personalización de marca por negocio | 🟡 | 📋 |
-| F8-05 | Plantillas por sector | 🟡 | 📋 |
-| F8-06 | Sistema de suscripción (Stripe) | 🔴 | 📋 |
-| F8-07 | Landing comercial de la plataforma | 🟡 | 📋 |
-| F8-08 | Panel de super-admin | 🟡 | 📋 |
+| F9-01 | Multi-tenant completo | 🔴 | 📋 |
+| F9-02 | Subdominios por negocio | 🔴 | 📋 |
+| F9-03 | Onboarding de nuevo negocio | 🔴 | 📋 |
+| F9-04 | Personalización de marca por negocio | 🟡 | 📋 |
+| F9-05 | Plantillas por sector | 🟡 | 📋 |
+| F9-06 | Sistema de suscripción (Stripe) | 🔴 | 📋 |
+| F9-07 | Landing comercial de la plataforma | 🟡 | 📋 |
+| F9-08 | Panel de super-admin | 🟡 | 📋 |
 
 ---
 
