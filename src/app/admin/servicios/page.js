@@ -24,13 +24,13 @@ export default async function ServiciosPage() {
         <p className="text-gray-500 mt-1">{servicios?.length ?? 0} servicios configurados</p>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-x-auto">
         {!servicios?.length ? (
           <div className="p-12 text-center text-gray-400">
             <p className="text-lg font-medium">Sin servicios todavía</p>
           </div>
         ) : (
-          <table className="w-full">
+          <table className="w-full min-w-[600px]">
             <thead>
               <tr className="border-b border-gray-100">
                 <th className="text-left px-6 py-4 text-xs font-medium text-gray-500 uppercase tracking-wide">Servicio</th>

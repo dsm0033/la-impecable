@@ -26,14 +26,14 @@ export default async function ClientesPage() {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-x-auto">
         {!clientes?.length ? (
           <div className="p-12 text-center text-gray-400">
             <p className="text-lg font-medium">Sin clientes todavía</p>
             <p className="text-sm mt-1">Los clientes aparecerán aquí cuando se registren</p>
           </div>
         ) : (
-          <table className="w-full">
+          <table className="w-full min-w-[500px]">
             <thead>
               <tr className="border-b border-gray-100">
                 <th className="text-left px-6 py-4 text-xs font-medium text-gray-500 uppercase tracking-wide">Nombre</th>
