@@ -55,8 +55,10 @@ create table if not exists public.checklists (
 
 -- ─── Row Level Security ───────────────────────────────────────────────────────
 
-alter table public.profiles  enable row level security;
-alter table public.services   enable row level security;
+alter table public.businesses  enable row level security;
+alter table public.profiles    enable row level security;
+alter table public.services    enable row level security;
+alter table public.checklists  enable row level security;
 
 -- profiles
 create policy "leer perfil propio"
@@ -85,3 +87,46 @@ create policy "admin actualiza servicios"
   on public.services for update
   using  (business_id = get_my_business_id())
   with check (business_id = get_my_business_id());
+
+-- businesses
+create policy "admin lee su negocio"
+  on public.businesses for select
+  using (
+    id = public.get_my_business_id()
+    and (select role from public.profiles where id = auth.uid()) = 'admin'
+  );
+
+create policy "admin actualiza su negocio"
+  on public.businesses for update
+  using (
+    id = public.get_my_business_id()
+    and (select role from public.profiles where id = auth.uid()) = 'admin'
+  )
+  with check (
+    id = public.get_my_business_id()
+    and (select role from public.profiles where id = auth.uid()) = 'admin'
+  );
+
+-- checklists
+create policy "miembros ven checklists del negocio"
+  on public.checklists for select
+  using (business_id = public.get_my_business_id());
+
+create policy "miembros actualizan checklists del negocio"
+  on public.checklists for update
+  using (business_id = public.get_my_business_id())
+  with check (business_id = public.get_my_business_id());
+
+create policy "admin crea checklists"
+  on public.checklists for insert
+  with check (
+    business_id = public.get_my_business_id()
+    and (select role from public.profiles where id = auth.uid()) = 'admin'
+  );
+
+create policy "admin elimina checklists"
+  on public.checklists for delete
+  using (
+    business_id = public.get_my_business_id()
+    and (select role from public.profiles where id = auth.uid()) = 'admin'
+  );
