@@ -1,4 +1,5 @@
 import Link from "next/link";
+import FAQSection from "@/components/FAQSection";
 import SERVICES from "@/data/services";
 import { Droplets, Armchair, Sparkles, Gem, Lightbulb, Wind } from "lucide-react";
 
@@ -123,6 +124,9 @@ export default function ServiciosPage() {
           </div>
         ))}
       </div>
+
+      {/* FAQ */}
+      <FAQSection />
 
       {/* Footer */}
       <footer className="text-center px-6 py-8 border-t border-[#1E2A38]">
