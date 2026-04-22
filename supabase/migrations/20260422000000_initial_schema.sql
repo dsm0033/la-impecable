@@ -6,8 +6,9 @@ create or replace function public.get_my_business_id()
 returns uuid
 language sql
 security definer
+set search_path = ''
 as $$
-  select business_id from profiles where id = auth.uid() limit 1;
+  select business_id from public.profiles where id = auth.uid() limit 1;
 $$;
 
 -- ─── Tables ───────────────────────────────────────────────────────────────────
