@@ -24,6 +24,9 @@
 .DS_Store
 *.pem
 
+# credenciales locales
+info@laimpecable.es.txt
+
 # debug
 npm-debug.log*
 yarn-debug.log*
