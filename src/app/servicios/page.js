@@ -1,9 +1,9 @@
 import Link from "next/link";
 import FAQSection from "@/components/FAQSection";
-import SERVICES from "@/data/services";
-import { Droplets, Armchair, Sparkles, Gem, Lightbulb, Wind } from "lucide-react";
+import { createClient } from "@/lib/supabase/server";
+import { Droplets, Armchair, Sparkles, Gem, Lightbulb, Wind, Wrench } from "lucide-react";
 
-const ICONS = { Droplets, Armchair, Sparkles, Gem, Lightbulb, Wind };
+const ICONS = { Droplets, Armchair, Sparkles, Gem, Lightbulb, Wind, Wrench };
 
 export const metadata = {
   title: "Servicios",
@@ -15,20 +15,24 @@ export const metadata = {
 };
 
 function ServiceIcon({ name }) {
-  const Icon = ICONS[name];
-  return Icon ? <Icon size={28} color="#C9A84C" strokeWidth={1.5} /> : null;
+  const Icon = ICONS[name] ?? Wrench;
+  return <Icon size={28} color="#C9A84C" strokeWidth={1.5} />;
 }
 
 const WA_NUMBER = "34607445305";
 
 function waLink(serviceName) {
-  const text = encodeURIComponent(
-    `Hola, quiero reservar el servicio de ${serviceName}.`
-  );
+  const text = encodeURIComponent(`Hola, quiero reservar el servicio de ${serviceName}.`);
   return `https://wa.me/${WA_NUMBER}?text=${text}`;
 }
 
-export default function ServiciosPage() {
+export default async function ServiciosPage() {
+  const supabase = await createClient();
+  const { data: servicios } = await supabase
+    .from("services")
+    .select("id, name, description, price, duration_minutes, active, icon, highlight")
+    .order("name");
+
   return (
     <div className="min-h-screen bg-[#0A0E14]">
 
@@ -36,10 +40,7 @@ export default function ServiciosPage() {
       <div className="relative pt-20 pb-16 text-center px-6 overflow-hidden">
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.12) 0%, transparent 65%)",
-          }}
+          style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.12) 0%, transparent 65%)" }}
         />
         <div className="relative z-10">
           <Link
@@ -68,25 +69,29 @@ export default function ServiciosPage() {
 
       {/* Listado de servicios */}
       <div className="max-w-[820px] mx-auto px-6 pb-24 space-y-5">
-        {SERVICES.map((service) => (
+        {servicios?.map((service) => (
           <div
             key={service.id}
-            className={`
-              rounded-2xl border p-7
-              ${service.highlight
+            className={`rounded-2xl border p-7 ${
+              !service.active
+                ? "bg-[#0D1117] border-[#1E2A38] opacity-70"
+                : service.highlight
                 ? "bg-gradient-to-br from-[#111820] to-[rgba(201,168,76,0.12)] border-[#C9A84C]"
                 : "bg-[#111820] border-[#1E2A38]"
-              }
-            `}
+            }`}
           >
-            {service.highlight && (
+            {!service.active && (
+              <span className="inline-block bg-[#1E2A38] text-[#5A6A7C] text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider font-sans mb-4">
+                Próximamente
+              </span>
+            )}
+            {service.active && service.highlight && (
               <span className="inline-block bg-[#C9A84C] text-[#0A0E14] text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider font-sans mb-4">
                 Más popular
               </span>
             )}
 
             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
-              {/* Info */}
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-3">
                   <ServiceIcon name={service.icon} />
@@ -94,31 +99,36 @@ export default function ServiciosPage() {
                     {service.name}
                   </h2>
                 </div>
-
-                <div className="flex items-baseline gap-2 mb-4">
-                  <span className="font-serif text-[36px] font-black text-[#C9A84C]">
-                    {service.price}€
-                  </span>
-                  <span className="font-sans text-sm text-[#8A9AAC]">
-                    · {service.time}
-                  </span>
-                </div>
-
+                {service.active && (
+                  <div className="flex items-baseline gap-2 mb-4">
+                    <span className="font-serif text-[36px] font-black text-[#C9A84C]">
+                      {service.price}€
+                    </span>
+                    <span className="font-sans text-sm text-[#8A9AAC]">
+                      · {service.duration_minutes} min
+                    </span>
+                  </div>
+                )}
                 <p className="font-sans text-sm leading-relaxed text-[#8A9AAC] max-w-[480px]">
-                  {service.desc}
+                  {service.description}
                 </p>
               </div>
 
-              {/* Botón reserva */}
               <div className="sm:pt-1 sm:shrink-0">
-                <a
-                  href={waLink(service.name)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 font-sans text-sm font-semibold px-6 py-3 bg-[#C9A84C] text-[#0A0E14] rounded-full tracking-wide hover:bg-[#A68A3A] transition-colors whitespace-nowrap"
-                >
-                  Reservar por WhatsApp
-                </a>
+                {service.active ? (
+                  <a
+                    href={waLink(service.name)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 font-sans text-sm font-semibold px-6 py-3 bg-[#C9A84C] text-[#0A0E14] rounded-full tracking-wide hover:bg-[#A68A3A] transition-colors whitespace-nowrap"
+                  >
+                    Reservar por WhatsApp
+                  </a>
+                ) : (
+                  <span className="inline-flex items-center gap-2 font-sans text-sm font-semibold px-6 py-3 bg-[#1E2A38] text-[#5A6A7C] rounded-full tracking-wide whitespace-nowrap cursor-not-allowed">
+                    No disponible
+                  </span>
+                )}
               </div>
             </div>
           </div>
