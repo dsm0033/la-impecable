@@ -128,6 +128,30 @@ export default function ServiciosPage() {
       {/* FAQ */}
       <FAQSection />
 
+      {/* CTA */}
+      <div
+        className="text-center px-6 py-16 border-t border-[#1E2A38]"
+        style={{ background: "linear-gradient(to bottom, transparent, rgba(201,168,76,0.15))" }}
+      >
+        <h2
+          className="font-serif font-black text-[#E8E6E1] mb-4"
+          style={{ fontSize: "clamp(24px, 5vw, 36px)" }}
+        >
+          ¿Tienes alguna duda?
+        </h2>
+        <p className="font-sans text-[15px] text-[#8A9AAC] mb-8">
+          Escríbenos sin compromiso y te respondemos en menos de 24 horas.
+        </p>
+        <a
+          href="https://wa.me/34607445305?text=Hola%2C%20tengo%20una%20pregunta%20sobre%20vuestros%20servicios."
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 font-sans text-[15px] font-semibold px-10 py-4 bg-[#C9A84C] text-[#0A0E14] rounded-full tracking-wide hover:bg-[#A68A3A] transition-colors"
+        >
+          Escribir por WhatsApp
+        </a>
+      </div>
+
       {/* Footer */}
       <footer className="text-center px-6 py-8 border-t border-[#1E2A38]">
         <p className="font-sans text-xs text-[#5A6A7C]">
