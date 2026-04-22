@@ -73,10 +73,10 @@ export default function InternoPage() {
       <div className="flex justify-between items-center mb-6">
         <div>
           <h2 className="font-serif text-[22px] font-black text-[#E8E6E1]">
-            Checklist Interno
+            IMPECABLE
           </h2>
           <p className="font-sans text-xs text-[#8A9AAC] mt-0.5">
-            Lavado Completo · 121 min
+            Estética Avanzada · Checklist de servicio
           </p>
         </div>
         <div className="flex gap-2">

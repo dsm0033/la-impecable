@@ -63,7 +63,7 @@ export default function HomePage() {
           <h1 className="fade-in font-serif font-black text-[#E8E6E1] leading-none mb-2"
             style={{ fontSize: "clamp(42px, 8vw, 80px)", animationDelay: "0.15s" }}
           >
-            La Impecable
+            IMPECABLE
           </h1>
 
           {/* Línea dorada */}
@@ -75,10 +75,10 @@ export default function HomePage() {
           <p className="fade-in font-sans font-light text-[#8A9AAC] leading-relaxed max-w-[540px] mx-auto mb-10"
             style={{ fontSize: "clamp(16px, 2.5vw, 20px)", animationDelay: "0.35s" }}
           >
-            Limpieza profesional de vehículos con atención al detalle.
+            Estética Avanzada · Sanlúcar de Barrameda
             <br />
-            Tu coche merece un tratamiento{" "}
-            <span className="text-[#C9A84C] font-medium">impecable</span>.
+            Cada detalle tratado con{" "}
+            <span className="text-[#C9A84C] font-medium">precisión y rigor</span>.
           </p>
 
           {/* Botones de acción */}
@@ -223,7 +223,7 @@ export default function HomePage() {
           ════════════════════════════════════════════ */}
       <footer className="text-center px-6 py-8 border-t border-[#1E2A38]">
         <p className="font-sans text-xs text-[#5A6A7C]">
-          © 2026 La Impecable · Sanlúcar de Barrameda, Cádiz
+          © 2026 Impecable · Estética Avanzada · Sanlúcar de Barrameda, Cádiz
         </p>
       </footer>
     </div>

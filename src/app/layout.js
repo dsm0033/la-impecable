@@ -16,44 +16,44 @@ import "./globals.css";
 export const metadata = {
   metadataBase: new URL("https://laimpecable.es"),
   title: {
-    default: "La Impecable | Limpieza Profesional de Vehículos en Sanlúcar de Barrameda",
-    template: "%s | La Impecable",
+    default: "IMPECABLE | Estética Avanzada · Sanlúcar de Barrameda",
+    template: "%s | IMPECABLE",
   },
   description:
-    "Servicio profesional de limpieza de vehículos en Sanlúcar de Barrameda. Lavado completo, tapicería profunda, encerado y más. Pide tu cita hoy.",
+    "Estética avanzada de vehículos en Sanlúcar de Barrameda. Tratamientos de precisión, detailing profesional y atención al detalle. Pide tu cita.",
   keywords: [
-    "limpieza de coches",
-    "lavado de vehículos",
     "detailing",
+    "estética de vehículos",
+    "limpieza profesional de coches",
     "Sanlúcar de Barrameda",
-    "limpieza profesional",
+    "pulido",
     "tapicería",
-    "encerado",
+    "tratamiento de pintura",
   ],
-  authors: [{ name: "La Impecable" }],
-  creator: "La Impecable",
+  authors: [{ name: "Impecable" }],
+  creator: "Impecable",
   openGraph: {
     type: "website",
     locale: "es_ES",
     url: "https://laimpecable.es",
-    siteName: "La Impecable",
-    title: "La Impecable | Limpieza Profesional de Vehículos",
+    siteName: "Impecable",
+    title: "IMPECABLE | Estética Avanzada",
     description:
-      "Servicio profesional de limpieza de vehículos en Sanlúcar de Barrameda. Lavado completo, tapicería profunda, encerado y más.",
+      "Estética avanzada de vehículos en Sanlúcar de Barrameda. Tratamientos de precisión y detailing profesional.",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "La Impecable - Limpieza Profesional de Vehículos en Sanlúcar de Barrameda",
+        alt: "IMPECABLE - Estética Avanzada · Sanlúcar de Barrameda",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "La Impecable | Limpieza Profesional de Vehículos",
+    title: "IMPECABLE | Estética Avanzada",
     description:
-      "Servicio profesional de limpieza de vehículos en Sanlúcar de Barrameda.",
+      "Estética avanzada de vehículos en Sanlúcar de Barrameda.",
     images: ["/og-image.jpg"],
   },
   icons: {
