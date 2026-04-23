@@ -21,7 +21,7 @@
 | F1-07 | Deploy en Vercel | ✅ |
 | F1-08 | Dominio laimpecable.es + www | ✅ |
 | F1-09 | Responsive móvil | ✅ |
-| F1-10 | Favicon con logo real | 📋 Pendiente (esperando archivos kit marca) |
+| F1-10 | Favicon con logo real | ✅ |
 | F1-11 | SEO completo (Open Graph, canonical, robots) | ✅ |
 | F1-12 | Identidad de marca (IMPECABLE · Cuidado Profesional) | ✅ |
 | F1-13 | Página /servicios con iconos Lucide y FAQ | ✅ |
@@ -29,7 +29,7 @@
 | F1-15 | Página /contacto con mapa y horario | ✅ |
 | F1-16 | Página /sobre-nosotros con garantía | ✅ |
 | F1-17 | Email info@laimpecable.es operativo en Gmail | ✅ |
-| F1-18 | Og-image 1200x630px | 📋 Pendiente (esperando archivos kit marca) |
+| F1-18 | Og-image 1200x630px | ✅ |
 
 ---
 
@@ -37,16 +37,16 @@
 
 | ID | Tarea | Prioridad | Estado |
 |---|---|---|---|
-| F2-01 | Crear proyecto Supabase | 🔴 | 📋 |
-| F2-02 | Tabla `businesses` (multi-tenant desde el inicio) | 🔴 | 📋 |
-| F2-03 | Tabla `users` con roles (admin, employee, client) | 🔴 | 📋 |
-| F2-04 | Tabla `services` (migrar datos de services.js) | 🔴 | 📋 |
-| F2-05 | Tabla `checklists` con secciones en JSON | 🟡 | 📋 |
-| F2-06 | Conectar Supabase con Next.js | 🔴 | 📋 |
-| F2-07 | Sistema de login (email + contraseña) | 🔴 | 📋 |
-| F2-08 | Proteger rutas por rol (middleware Next.js) | 🔴 | 📋 |
-| F2-09 | Página de login unificada | 🔴 | 📋 |
-| F2-10 | Seed de datos iniciales | 🟡 | 📋 |
+| F2-01 | Crear proyecto Supabase | 🔴 | ✅ |
+| F2-02 | Tabla `businesses` (multi-tenant desde el inicio) | 🔴 | ✅ |
+| F2-03 | Tabla `users` con roles (admin, employee, client) | 🔴 | ✅ |
+| F2-04 | Tabla `services` (migrar datos de services.js) | 🔴 | ✅ |
+| F2-05 | Tabla `checklists` con secciones en JSON | 🟡 | ✅ |
+| F2-06 | Conectar Supabase con Next.js | 🔴 | ✅ |
+| F2-07 | Sistema de login (email + contraseña) | 🔴 | ✅ |
+| F2-08 | Proteger rutas por rol (proxy.js en Next.js 16) | 🔴 | ✅ |
+| F2-09 | Página de login unificada | 🔴 | ✅ |
+| F2-10 | Seed de datos iniciales | 🟡 | ✅ |
 
 ---
 
@@ -54,11 +54,11 @@
 
 | ID | Tarea | Prioridad | Estado |
 |---|---|---|---|
-| F3-01 | Layout del panel admin (sidebar + header) | 🔴 | 📋 |
-| F3-02 | Dashboard con estadísticas | 🔴 | 📋 |
+| F3-01 | Layout del panel admin (sidebar + header) | 🔴 | ✅ |
+| F3-02 | Dashboard con estadísticas (tarjetas clicables) | 🔴 | ✅ |
 | F3-03 | CRUD de clientes | 🔴 | 📋 |
 | F3-04 | CRUD de empleados | 🔴 | 📋 |
-| F3-05 | CRUD de servicios | 🟡 | 📋 |
+| F3-05 | CRUD de servicios (toggle activo/inactivo hecho) | 🟡 | 🔄 |
 | F3-06 | Historial de servicios | 🟡 | 📋 |
 | F3-07 | Asignar servicio a empleado | 🟡 | 📋 |
 | F3-08 | Gestión de checklists | 🟢 | 📋 |

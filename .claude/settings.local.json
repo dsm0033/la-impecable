@@ -7,7 +7,8 @@
       "Bash(npm install *)",
       "Bash(node *)",
       "Bash(git restore *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(supabase --version)"
     ]
   }
 }

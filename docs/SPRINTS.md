@@ -1,5 +1,5 @@
 # 🏃 SPRINTS — IMPECABLE
-*Última actualización: 22 Abril 2026*
+*Última actualización: 23 Abril 2026*
 
 ## Metodología
 - Sprints de 2 semanas
@@ -29,7 +29,7 @@
 ## ✅ SPRINT 2 — "Identidad y Presencia"
 **Fechas:** Semanas 3-4 (inicio: 2026-04-08 aprox. — finalizado: 2026-04-22)
 **Objetivo:** Dominio propio + identidad de marca + páginas completas
-**Estado:** COMPLETADO (pendiente favicon y og-image)
+**Estado:** COMPLETADO
 
 | Tarea | Estado |
 |---|---|
@@ -42,8 +42,8 @@
 | Página /contacto con mapa y horario | ✅ |
 | Página /sobre-nosotros con garantía | ✅ |
 | Email info@laimpecable.es operativo en Gmail | ✅ |
-| Favicon con logo real | 📋 Pendiente kit marca |
-| Og-image 1200x630px | 📋 Pendiente kit marca |
+| Favicon con logo real (icon.png + favicon.ico) | ✅ |
+| Og-image 1200x630px (public/og-image.png) | ✅ |
 
 ---
 
@@ -63,9 +63,21 @@
 
 ---
 
-## 📋 SPRINT 4 — "Panel Admin"
-**Fechas:** Semanas 7-8
+## 🔄 SPRINT 4 — "Panel Admin"
+**Fechas:** Semanas 7-8 (inicio: 2026-04-23)
 **Objetivo:** Panel de administración básico para Diego
+**Estado:** EN PROGRESO
+
+| Tarea | Estado |
+|---|---|
+| Layout sidebar + header responsive | ✅ |
+| Dashboard con estadísticas y tarjetas clicables | ✅ |
+| CRUD de clientes | 📋 |
+| CRUD de empleados | 📋 |
+| CRUD de servicios (toggle hecho, falta crear/editar/borrar) | 🔄 |
+| Historial de servicios | 📋 |
+| Asignar servicio a empleado | 📋 |
+| Gestión de checklists | 📋 |
 
 ---
 
