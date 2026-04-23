@@ -10,7 +10,7 @@ async function getStats(businessId) {
     { count: services },
   ] = await Promise.all([
     supabase.from('customers').select('*', { count: 'exact', head: true }).eq('business_id', businessId),
-    supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('role', 'employee').eq('business_id', businessId),
+    supabase.from('employees').select('*', { count: 'exact', head: true }).eq('business_id', businessId),
     supabase.from('services').select('*', { count: 'exact', head: true }).eq('business_id', businessId),
   ])
   return { clients: clients ?? 0, employees: employees ?? 0, services: services ?? 0 }
