@@ -43,7 +43,7 @@ export const metadata = {
       "Estética avanzada de vehículos en Sanlúcar de Barrameda. Tratamientos de precisión y detailing profesional.",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/og-image.png",
         width: 1200,
         height: 630,
         alt: "IMPECABLE - Cuidado Profesional del Vehículo · Sanlúcar de Barrameda",
@@ -55,7 +55,7 @@ export const metadata = {
     title: "IMPECABLE | Cuidado Profesional del Vehículo",
     description:
       "Estética avanzada de vehículos en Sanlúcar de Barrameda.",
-    images: ["/og-image.jpg"],
+    images: ["/og-image.png"],
   },
   icons: {
     icon: "/favicon.ico",
