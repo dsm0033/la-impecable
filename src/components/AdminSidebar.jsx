@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, Users, Wrench, UserCheck, LogOut, Menu, X } from 'lucide-react'
+import { LayoutDashboard, Users, Wrench, UserCheck, ClipboardList, LogOut, Menu, X } from 'lucide-react'
 import { logout } from '@/app/actions/auth'
 
 const NAV = [
@@ -11,9 +11,10 @@ const NAV = [
   { href: '/admin/clientes', label: 'Clientes', icon: Users },
   { href: '/admin/servicios', label: 'Servicios', icon: Wrench },
   { href: '/admin/empleados', label: 'Empleados', icon: UserCheck },
+  { href: '/admin/historial', label: 'Historial', icon: ClipboardList },
 ]
 
-export default function AdminSidebar() {
+export default function AdminSidebar({ pendingCount = 0 }) {
   const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
 
@@ -73,7 +74,12 @@ export default function AdminSidebar() {
                 }`}
               >
                 <Icon size={18} />
-                {label}
+                <span className="flex-1">{label}</span>
+                {href === '/admin/historial' && pendingCount > 0 && (
+                  <span className="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center leading-none">
+                    {pendingCount}
+                  </span>
+                )}
               </Link>
             )
           })}
