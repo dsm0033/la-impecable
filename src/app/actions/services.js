@@ -45,6 +45,7 @@ export async function crearServicio(prevState, formData) {
     duration_minutes: duration_minutes ? parseInt(duration_minutes) : null,
     icon: formData.get('icon') || 'Wrench',
     highlight: formData.get('highlight') === 'on',
+    checklist_id: formData.get('checklist_id') || null,
     active: true,
   })
 
@@ -74,6 +75,7 @@ export async function editarServicio(id, prevState, formData) {
       duration_minutes: duration_minutes ? parseInt(duration_minutes) : null,
       icon: formData.get('icon') || 'Wrench',
       highlight: formData.get('highlight') === 'on',
+      checklist_id: formData.get('checklist_id') || null,
     })
     .eq('id', id)
     .eq('business_id', ctx.businessId)

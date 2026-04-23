@@ -9,17 +9,23 @@ export default async function EditarServicioPage({ params }) {
   const { id } = await params
   const supabase = await createClient()
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('business_id')
-    .single()
+  const { data: profile } = await supabase.from('profiles').select('business_id').single()
+  const bid = profile?.business_id
 
-  const { data: servicio } = await supabase
-    .from('services')
-    .select('id, name, description, price, duration_minutes, icon, highlight')
-    .eq('id', id)
-    .eq('business_id', profile?.business_id)
-    .single()
+  const [{ data: servicio }, { data: checklists }] = await Promise.all([
+    supabase
+      .from('services')
+      .select('id, name, description, price, duration_minutes, icon, highlight, checklist_id')
+      .eq('id', id)
+      .eq('business_id', bid)
+      .single(),
+    supabase
+      .from('checklists')
+      .select('id, name')
+      .eq('business_id', bid)
+      .eq('active', true)
+      .order('name'),
+  ])
 
   if (!servicio) notFound()
 
@@ -33,7 +39,7 @@ export default async function EditarServicioPage({ params }) {
       </div>
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-        <ServicioForm action={action} initialData={servicio} submitLabel="Guardar cambios" />
+        <ServicioForm action={action} initialData={servicio} checklists={checklists ?? []} submitLabel="Guardar cambios" />
       </div>
     </div>
   )

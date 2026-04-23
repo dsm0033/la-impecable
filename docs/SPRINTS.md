@@ -66,18 +66,17 @@
 ## 🔄 SPRINT 4 — "Panel Admin"
 **Fechas:** Semanas 7-8 (inicio: 2026-04-23)
 **Objetivo:** Panel de administración básico para Diego
-**Estado:** EN PROGRESO
+**Estado:** COMPLETADO
 
 | Tarea | Estado |
 |---|---|
 | Layout sidebar + header responsive | ✅ |
 | Dashboard con estadísticas y tarjetas clicables | ✅ |
-| CRUD de clientes | 📋 |
-| CRUD de empleados | 📋 |
-| CRUD de servicios (toggle hecho, falta crear/editar/borrar) | 🔄 |
-| Historial de servicios | 📋 |
-| Asignar servicio a empleado | 📋 |
-| Gestión de checklists | 📋 |
+| CRUD de clientes | ✅ |
+| CRUD de empleados | ✅ |
+| CRUD de servicios (toggle hecho, falta crear/editar/borrar) | ✅ |
+| Historial de servicios + asignar empleado | ✅ |
+| Gestión de checklists | ✅ |
 
 ---
 

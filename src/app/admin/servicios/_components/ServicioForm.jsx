@@ -29,7 +29,7 @@ function SubmitBtn({ label }) {
   )
 }
 
-export function ServicioForm({ action, initialData, submitLabel }) {
+export function ServicioForm({ action, initialData, checklists = [], submitLabel }) {
   const [state, formAction] = useActionState(action, null)
 
   return (
@@ -100,6 +100,22 @@ export function ServicioForm({ action, initialData, submitLabel }) {
         >
           {ICONOS.map((i) => (
             <option key={i.value} value={i.value}>{i.label}</option>
+          ))}
+        </select>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Checklist asociado <span className="text-gray-400 font-normal">(opcional)</span>
+        </label>
+        <select
+          name="checklist_id"
+          defaultValue={initialData?.checklist_id ?? ''}
+          className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="">— Sin checklist —</option>
+          {checklists.map((c) => (
+            <option key={c.id} value={c.id}>{c.name}</option>
           ))}
         </select>
       </div>

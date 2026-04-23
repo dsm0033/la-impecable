@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, Users, Wrench, UserCheck, ClipboardList, LogOut, Menu, X } from 'lucide-react'
+import { LayoutDashboard, Users, Wrench, UserCheck, ClipboardList, CheckSquare, LogOut, Menu, X } from 'lucide-react'
 import { logout } from '@/app/actions/auth'
 
 const NAV = [
@@ -11,7 +11,8 @@ const NAV = [
   { href: '/admin/clientes', label: 'Clientes', icon: Users },
   { href: '/admin/servicios', label: 'Servicios', icon: Wrench },
   { href: '/admin/empleados', label: 'Empleados', icon: UserCheck },
-  { href: '/admin/historial', label: 'Historial', icon: ClipboardList },
+  { href: '/admin/historial',   label: 'Historial',   icon: ClipboardList },
+  { href: '/admin/checklists', label: 'Checklists',  icon: CheckSquare },
 ]
 
 export default function AdminSidebar({ pendingCount = 0 }) {
