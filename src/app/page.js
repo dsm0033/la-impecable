@@ -13,10 +13,8 @@
 // 6. Footer
 // ============================================
 
-"use client";
-
 import Link from "next/link";
-import SERVICES from "@/data/services";
+import { createClient } from "@/lib/supabase/server";
 import ServiceCard from "@/components/ServiceCard";
 import AnimatedCounter from "@/components/AnimatedCounter";
 
@@ -30,7 +28,12 @@ const PROCESO = [
   { step: "06", title: "Entrega", desc: "Revisión final, ambientador y entrega con el trabajo explicado." },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const supabase = await createClient();
+  const { data: servicios } = await supabase
+    .from("services")
+    .select("id, name, description, price, duration_minutes, active, icon, highlight")
+    .order("sort_order");
   return (
     <div className="min-h-screen bg-[#0A0E14]">
 
@@ -150,7 +153,7 @@ export default function HomePage() {
 
         {/* Grid de tarjetas de servicios */}
         <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-5">
-          {SERVICES.map((service, i) => (
+          {servicios?.map((service, i) => (
             <ServiceCard key={service.id} service={service} index={i} />
           ))}
         </div>

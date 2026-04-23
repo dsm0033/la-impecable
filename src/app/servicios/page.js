@@ -31,7 +31,7 @@ export default async function ServiciosPage() {
   const { data: servicios } = await supabase
     .from("services")
     .select("id, name, description, price, duration_minutes, active, icon, highlight")
-    .order("name");
+    .order("sort_order");
 
   return (
     <div className="min-h-screen bg-[#0A0E14]">
