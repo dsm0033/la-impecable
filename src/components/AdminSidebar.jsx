@@ -3,11 +3,12 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, Users, Wrench, UserCheck, ClipboardList, CheckSquare, LogOut, Menu, X, ExternalLink } from 'lucide-react'
+import { LayoutDashboard, Users, Wrench, UserCheck, ClipboardList, CheckSquare, LogOut, Menu, X, ExternalLink, CalendarDays } from 'lucide-react'
 import { logout } from '@/app/actions/auth'
 
 const NAV = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/admin/reservas',  label: 'Reservas',   icon: CalendarDays },
   { href: '/admin/clientes', label: 'Clientes', icon: Users },
   { href: '/admin/servicios', label: 'Servicios', icon: Wrench },
   { href: '/admin/empleados', label: 'Empleados', icon: UserCheck },

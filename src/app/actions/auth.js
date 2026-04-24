@@ -4,6 +4,18 @@ import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
+export async function loginWithGoogle() {
+  const supabase = await createClient()
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
+    },
+  })
+  if (error || !data.url) return { error: 'No se pudo conectar con Google. Inténtalo de nuevo.' }
+  redirect(data.url)
+}
+
 export async function login(prevState, formData) {
   const email = formData.get('email')
   const password = formData.get('password')

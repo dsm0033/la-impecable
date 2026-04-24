@@ -100,18 +100,21 @@
 
 ---
 
-## 📋 SPRINT 6 — "Portal Cliente"
-**Fechas:** Semanas 11-12
-**Objetivo:** Portal del cliente con historial, facturas y login con Google
+## 🔄 SPRINT 6 — "Reservas y Pago"
+**Fechas:** Semanas 11-12 (inicio: 2026-04-24)
+**Objetivo:** Sistema de reservas público con pago online via Stripe
+**Nota:** Portal Cliente (historial, facturas) pasa a Sprint 8. El OAuth de Google está implementado pero pendiente de configurar en Supabase/Google Cloud Console.
 
 | Tarea | Estado |
 |---|---|
-| Registro de cliente | 📋 |
-| Perfil del cliente (datos + vehículos) | 📋 |
-| Vista "Mi historial" | 📋 |
-| Descargar facturas en PDF | 📋 |
-| **Login con Google (OAuth)** | 📋 |
-| Crear perfil automático al primer login con Google | 📋 |
+| Login con Google (OAuth) — código listo, pendiente configurar credenciales | 🔄 |
+| Crear perfil automático al primer login con Google (trigger DB) | ✅ |
+| Tabla `bookings` en Supabase | ✅ |
+| Página pública `/reservar` — servicio, fecha, hora, nombre, matrícula | ✅ |
+| Stripe Checkout — pago seguro hospedado por Stripe | ✅ |
+| Página de confirmación tras el pago | ✅ |
+| Webhook de Stripe — confirma reserva en BD al pagar | ✅ |
+| Panel admin: vista de reservas con estado de pago | ✅ |
 
 ---
 
@@ -130,14 +133,20 @@
 
 ---
 
-## 📋 SPRINT 8 — "Reservas"
+## 📋 SPRINT 8 — "Portal Cliente"
 **Fechas:** Semanas 15-16
-**Objetivo:** Sistema de reservas con calendario y notificaciones por email
+**Objetivo:** Portal del cliente con historial de servicios y facturas en PDF
+
+| Tarea | Estado |
+|---|---|
+| Perfil del cliente (datos + vehículos) | 📋 |
+| Vista "Mi historial" | 📋 |
+| Descargar facturas en PDF | 📋 |
 
 ---
 
 ## 📋 SPRINT 9 — "Facturación"
-**Fechas:** Semanas 15-16
+**Fechas:** Semanas 17-18
 **Objetivo:** Generación automática de facturas con IVA correcto
 
 ---
