@@ -4,9 +4,6 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 
-const WA_LINK =
-  "https://wa.me/34607445305?text=Hola%2C%20quiero%20pedir%20cita.";
-
 const NAV_LINKS = [
   { href: "/servicios", label: "Servicios" },
   { href: "/contacto", label: "Contacto" },
@@ -20,13 +17,13 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  if (PORTAL_ROUTES.some(r => pathname.startsWith(r))) return null
-
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  if (PORTAL_ROUTES.some(r => pathname.startsWith(r))) return null
 
   return (
     <div>
@@ -59,14 +56,18 @@ export default function Navbar() {
                 {label}
               </Link>
             ))}
-            <a
-              href={WA_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/login"
+              className="font-sans text-sm font-medium text-[#8A9AAC] hover:text-[#C9A84C] transition-colors tracking-wide outline-none"
+            >
+              Entrar
+            </Link>
+            <Link
+              href="/reservar"
               className="font-sans text-sm font-semibold px-5 py-2 bg-[#C9A84C] text-[#0A0E14] rounded-full tracking-wide hover:bg-[#A68A3A] transition-colors"
             >
               Reservar
-            </a>
+            </Link>
           </nav>
 
           {/* Botón hamburguesa (móvil) */}
@@ -98,16 +99,21 @@ export default function Navbar() {
               <div className="w-full h-px bg-[#1E2A38]" />
             </div>
           ))}
-          <div className="mt-10">
-            <a
-              href={WA_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
+          <div className="mt-10 flex flex-col items-center gap-4">
+            <Link
+              href="/login"
+              onClick={() => setMenuOpen(false)}
+              className="font-sans text-base font-medium text-[#8A9AAC] hover:text-[#C9A84C] transition-colors tracking-wide"
+            >
+              Entrar
+            </Link>
+            <Link
+              href="/reservar"
               onClick={() => setMenuOpen(false)}
               className="inline-flex font-sans text-base font-semibold px-10 py-4 bg-[#C9A84C] text-[#0A0E14] rounded-full tracking-wide hover:bg-[#A68A3A] transition-colors"
             >
-              Reservar por WhatsApp
-            </a>
+              Reservar
+            </Link>
           </div>
         </div>
       )}
