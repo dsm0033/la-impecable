@@ -15,7 +15,7 @@ export default async function ReservarPage() {
     .order('sort_order', { ascending: true })
 
   return (
-    <main className="min-h-screen bg-gray-50 py-12 px-4">
+    <main className="min-h-screen bg-gray-50 pt-24 pb-12 px-4">
       <div className="max-w-2xl mx-auto">
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold text-gray-900">Reserva tu servicio</h1>

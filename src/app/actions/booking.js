@@ -2,6 +2,7 @@
 
 import Stripe from 'stripe'
 import { createClient } from '@/lib/supabase/server'
+import { createClient as createAdminClient } from '@supabase/supabase-js'
 import { redirect } from 'next/navigation'
 
 const TIME_SLOTS = ['09:00', '10:00', '11:00', '12:00', '13:00', '15:00', '16:00', '17:00', '18:00']
@@ -39,8 +40,14 @@ export async function crearReserva(prevState, formData) {
   const { data: businessId } = await supabase.rpc('get_default_business_id')
   if (!businessId) return { error: 'Error interno. Inténtalo más tarde.' }
 
+  // Service role para bypass RLS en INSERT público
+  const adminSupabase = createAdminClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_ROLE_KEY
+  )
+
   // Crear reserva en estado pendiente
-  const { data: booking, error: bookingError } = await supabase
+  const { data: booking, error: bookingError } = await adminSupabase
     .from('bookings')
     .insert({
       business_id:    businessId,
@@ -82,7 +89,7 @@ export async function crearReserva(prevState, formData) {
   })
 
   // Guardar stripe_session_id en la reserva
-  await supabase
+  await adminSupabase
     .from('bookings')
     .update({ stripe_session_id: session.id })
     .eq('id', booking.id)
