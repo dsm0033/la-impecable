@@ -6,7 +6,8 @@ export const metadata = { title: 'Nuevo servicio · Admin IMPECABLE' }
 
 export default async function NuevoServicioPage() {
   const supabase = await createClient()
-  const { data: profile } = await supabase.from('profiles').select('business_id').single()
+  const { data: { user } } = await supabase.auth.getUser()
+  const { data: profile } = await supabase.from('profiles').select('business_id').eq('id', user?.id).single()
 
   const { data: checklists } = await supabase
     .from('checklists')

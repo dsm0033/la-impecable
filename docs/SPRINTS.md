@@ -80,19 +80,19 @@
 
 ---
 
-## 🔄 SPRINT 5 — "Portal Empleado"
-**Fechas:** Semanas 9-10 (inicio: 2026-04-23)
+## ✅ SPRINT 5 — "Portal Empleado"
+**Fechas:** Semanas 9-10 (inicio: 2026-04-23 — finalizado: 2026-04-23)
 **Objetivo:** Portal del empleado con checklist interactivo vinculado al historial
-**Estado:** EN PROGRESO
+**Estado:** COMPLETADO
 
 | Tarea | Estado |
 |---|---|
 | Login de empleado (ya funciona, ruta /empleado protegida) | ✅ |
-| Ver trabajos asignados del día | 📋 |
-| Abrir trabajo y ver checklist vinculado | 📋 |
-| Marcar ítems del checklist en tiempo real | 📋 |
-| Cronómetro y barra de progreso | 📋 |
-| Completar trabajo → actualizar estado en historial | 📋 |
+| Ver trabajos asignados del día | ✅ |
+| Abrir trabajo y ver checklist vinculado | ✅ |
+| Marcar ítems del checklist en tiempo real | ✅ |
+| Cronómetro y barra de progreso | ✅ |
+| Completar trabajo → actualizar estado en historial | ✅ |
 
 ---
 

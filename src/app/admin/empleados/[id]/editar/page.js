@@ -8,10 +8,12 @@ export const metadata = { title: 'Editar empleado · Admin IMPECABLE' }
 export default async function EditarEmpleadoPage({ params }) {
   const { id } = await params
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
 
   const { data: profile } = await supabase
     .from('profiles')
     .select('business_id')
+    .eq('id', user?.id)
     .single()
 
   const { data: empleado } = await supabase

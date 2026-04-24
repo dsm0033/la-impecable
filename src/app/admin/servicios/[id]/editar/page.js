@@ -8,8 +8,8 @@ export const metadata = { title: 'Editar servicio · Admin IMPECABLE' }
 export default async function EditarServicioPage({ params }) {
   const { id } = await params
   const supabase = await createClient()
-
-  const { data: profile } = await supabase.from('profiles').select('business_id').single()
+  const { data: { user } } = await supabase.auth.getUser()
+  const { data: profile } = await supabase.from('profiles').select('business_id').eq('id', user?.id).single()
   const bid = profile?.business_id
 
   const [{ data: servicio }, { data: checklists }] = await Promise.all([

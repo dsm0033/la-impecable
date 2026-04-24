@@ -6,10 +6,12 @@ export const metadata = { title: 'Clientes · Admin IMPECABLE' }
 
 export default async function ClientesPage() {
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
 
   const { data: profile } = await supabase
     .from('profiles')
     .select('business_id')
+    .eq('id', user?.id)
     .single()
 
   const { data: clientes } = await supabase

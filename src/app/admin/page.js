@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { Users, Wrench, UserCheck, ClipboardList } from 'lucide-react'
 
@@ -34,9 +35,13 @@ async function getStats(businessId) {
 
 export default async function AdminDashboard() {
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
+
   const { data: profile } = await supabase
     .from('profiles')
     .select('full_name, business_id')
+    .eq('id', user.id)
     .single()
 
   const stats = await getStats(profile?.business_id)

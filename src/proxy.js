@@ -26,20 +26,20 @@ export async function proxy(request) {
     }
   )
 
-  // Refresca la sesión si ha expirado (sin llamada de red)
-  const { data: { session } } = await supabase.auth.getSession()
+  // Valida y refresca el token contra el servidor de Supabase
+  const { data: { user } } = await supabase.auth.getUser()
 
   const path = request.nextUrl.pathname
   const isProtected = protectedPaths.some(p => path.startsWith(p))
   const isAuthPath = authPaths.includes(path)
 
   // Sin sesión intentando entrar a ruta protegida → login
-  if (isProtected && !session) {
+  if (isProtected && !user) {
     return NextResponse.redirect(new URL('/login', request.nextUrl))
   }
 
   // Con sesión intentando entrar al login → su panel
-  if (isAuthPath && session) {
+  if (isAuthPath && user) {
     const role = request.cookies.get('user-role')?.value
     const dest = role === 'admin' ? '/admin' : role === 'employee' ? '/empleado' : '/cliente'
     return NextResponse.redirect(new URL(dest, request.nextUrl))

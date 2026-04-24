@@ -7,10 +7,12 @@ export const metadata = { title: 'Checklists · Admin IMPECABLE' }
 
 export default async function ChecklistsPage() {
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
 
   const { data: profile } = await supabase
     .from('profiles')
     .select('business_id')
+    .eq('id', user?.id)
     .single()
 
   const { data: checklists } = await supabase
