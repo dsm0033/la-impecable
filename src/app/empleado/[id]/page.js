@@ -24,7 +24,7 @@ export default async function TrabajoPage({ params }) {
   const { data: record } = await supabase
     .from('service_records')
     .select(`
-      id, date, status, notes, checklist_progress,
+      id, date, status, notes, checklist_progress, started_at,
       services(id, name, duration_minutes, checklists(id, name, items)),
       customers(full_name)
     `)
@@ -64,6 +64,7 @@ export default async function TrabajoPage({ params }) {
             initialProgress={record.checklist_progress ?? []}
             duration={record.services?.duration_minutes ?? 60}
             status={record.status}
+            startedAt={record.started_at ?? null}
           />
         )}
       </div>

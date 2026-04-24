@@ -1,5 +1,5 @@
 # 🏃 SPRINTS — IMPECABLE
-*Última actualización: 23 Abril 2026*
+*Última actualización: 24 Abril 2026*
 
 ## Metodología
 - Sprints de 2 semanas
@@ -81,7 +81,7 @@
 ---
 
 ## ✅ SPRINT 5 — "Portal Empleado"
-**Fechas:** Semanas 9-10 (inicio: 2026-04-23 — finalizado: 2026-04-23)
+**Fechas:** Semanas 9-10 (inicio: 2026-04-23 — finalizado: 2026-04-24)
 **Objetivo:** Portal del empleado con checklist interactivo vinculado al historial
 **Estado:** COMPLETADO
 
@@ -91,8 +91,12 @@
 | Ver trabajos asignados del día | ✅ |
 | Abrir trabajo y ver checklist vinculado | ✅ |
 | Marcar ítems del checklist en tiempo real | ✅ |
-| Cronómetro y barra de progreso | ✅ |
+| Cronómetro automático (inicia al primer check, pausa/reanuda) | ✅ |
 | Completar trabajo → actualizar estado en historial | ✅ |
+| Guardar hora de inicio y finalización por trabajo | ✅ |
+| Historial de trabajos completados en portal empleado | ✅ |
+| Admin: estado cobrado / vehículo recogido por servicio | ✅ |
+| Admin: enlace directo a vista empleado desde sidebar | ✅ |
 
 ---
 
@@ -111,13 +115,28 @@
 
 ---
 
-## 📋 SPRINT 7 — "Reservas"
+## 📋 SPRINT 7 — "Portal Empleado Avanzado"
 **Fechas:** Semanas 13-14
+**Objetivo:** Área personal del empleado: horas, vacaciones y documentos
+
+| Tarea | Estado |
+|---|---|
+| Historial ampliado: mes en curso y mes anterior con resumen de trabajos | 📋 |
+| Vista "Mis horas" — resumen de horas trabajadas por semana/mes | 📋 |
+| Cálculo automático de horas extra | 📋 |
+| Solicitud de vacaciones desde el portal | 📋 |
+| Admin: gestionar solicitudes de vacaciones | 📋 |
+| Acceso a nóminas (subida de PDF por el admin) | 📋 |
+
+---
+
+## 📋 SPRINT 8 — "Reservas"
+**Fechas:** Semanas 15-16
 **Objetivo:** Sistema de reservas con calendario y notificaciones por email
 
 ---
 
-## 📋 SPRINT 8 — "Facturación"
+## 📋 SPRINT 9 — "Facturación"
 **Fechas:** Semanas 15-16
 **Objetivo:** Generación automática de facturas con IVA correcto
 

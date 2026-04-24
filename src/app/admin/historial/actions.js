@@ -40,8 +40,10 @@ export async function crearRegistro(prevState, formData) {
     employee_id,
     date,
     price: parseFloat(price),
-    status: formData.get('status') || 'completado',
+    status: formData.get('status') || 'pendiente',
     notes: formData.get('notes')?.trim() || null,
+    is_paid: formData.get('is_paid') === 'on',
+    is_collected: formData.get('is_collected') === 'on',
   })
 
   if (error) return { error: error.message }
@@ -67,6 +69,8 @@ export async function editarRegistro(id, prevState, formData) {
       price: parseFloat(price),
       status: formData.get('status') || 'completado',
       notes: formData.get('notes')?.trim() || null,
+      is_paid: formData.get('is_paid') === 'on',
+      is_collected: formData.get('is_collected') === 'on',
     })
     .eq('id', id)
     .eq('business_id', ctx.businessId)

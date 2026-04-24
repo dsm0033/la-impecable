@@ -69,15 +69,19 @@
 
 | ID | Tarea | Prioridad | Estado |
 |---|---|---|---|
-| F4-01 | Vista "Mis servicios de hoy" | 🔴 | 📋 |
-| F4-02 | Checklist interactivo vinculado a BD | 🔴 | 📋 |
-| F4-03 | Marcar servicio como completado | 🔴 | 📋 |
-| F4-04 | Fichaje entrada/salida | 🔴 | 📋 |
-| F4-05 | Registro de pausas | 🟡 | 📋 |
-| F4-06 | Vista "Mi historial" | 🟡 | 📋 |
-| F4-07 | Vista "Mis horas" | 🟡 | 📋 |
+| F4-01 | Vista "Mis servicios de hoy" | 🔴 | ✅ |
+| F4-02 | Checklist interactivo vinculado a BD | 🔴 | ✅ |
+| F4-03 | Marcar servicio como completado | 🔴 | ✅ |
+| F4-04 | Cronómetro automático con hora inicio/fin | 🔴 | ✅ |
+| F4-05 | Historial de trabajos completados en portal (últimos 20) | 🟡 | ✅ |
+| F4-05b | Ampliar historial: mes en curso y mes anterior con resumen | 🟡 | 📋 |
+| F4-06 | Fichaje entrada/salida | 🔴 | 📋 |
+| F4-07 | Vista "Mis horas" — resumen semanal/mensual | 🟡 | 📋 |
 | F4-08 | Cálculo automático horas extra | 🟢 | 📋 |
-| F4-09 | Notificación al empleado cuando se le asigna un servicio | 🟡 | 📋 |
+| F4-09 | Solicitud de vacaciones desde el portal | 🟡 | 📋 |
+| F4-10 | Admin: gestionar solicitudes de vacaciones | 🟡 | 📋 |
+| F4-11 | Acceso a nóminas (PDF subido por el admin) | 🟡 | 📋 |
+| F4-12 | Notificación al empleado cuando se le asigna un servicio | 🟡 | 📋 |
 
 ---
 

@@ -27,13 +27,33 @@ export async function actualizarProgreso(recordId, progress) {
     .eq('employee_id', ctx.employeeId)
 }
 
+export async function iniciarTrabajo(recordId) {
+  const ctx = await getEmpleadoCtx()
+  if (!ctx) return
+
+  const { data: record } = await ctx.supabase
+    .from('service_records')
+    .select('started_at')
+    .eq('id', recordId)
+    .eq('employee_id', ctx.employeeId)
+    .single()
+
+  if (record && !record.started_at) {
+    await ctx.supabase
+      .from('service_records')
+      .update({ started_at: new Date().toISOString() })
+      .eq('id', recordId)
+      .eq('employee_id', ctx.employeeId)
+  }
+}
+
 export async function completarTrabajo(recordId) {
   const ctx = await getEmpleadoCtx()
   if (!ctx) return
 
   await ctx.supabase
     .from('service_records')
-    .update({ status: 'completado' })
+    .update({ status: 'completado', completed_at: new Date().toISOString() })
     .eq('id', recordId)
     .eq('employee_id', ctx.employeeId)
 

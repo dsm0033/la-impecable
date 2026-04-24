@@ -159,7 +159,7 @@ export function RegistroForm({ action, clientes, servicios, empleados, initialDa
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">Estado</label>
-        <select name="status" defaultValue={initialData?.status ?? 'completado'} className={inputClass}>
+        <select name="status" defaultValue={initialData?.status ?? 'pendiente'} className={inputClass}>
           {ESTADOS.map((e) => (
             <option key={e.value} value={e.value}>{e.label}</option>
           ))}
@@ -168,7 +168,7 @@ export function RegistroForm({ action, clientes, servicios, empleados, initialDa
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Notas <span className="text-gray-400 font-normal">(opcional)</span>
+          Notas / Incidencias <span className="text-gray-400 font-normal">(opcional)</span>
         </label>
         <textarea
           name="notes"
@@ -177,6 +177,44 @@ export function RegistroForm({ action, clientes, servicios, empleados, initialDa
           className={`${inputClass} resize-none`}
         />
       </div>
+
+      <div className="flex items-center gap-6">
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input
+            type="checkbox"
+            name="is_paid"
+            defaultChecked={!!initialData?.is_paid}
+            className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+          />
+          <span className="text-sm font-medium text-gray-700">Cobrado</span>
+        </label>
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input
+            type="checkbox"
+            name="is_collected"
+            defaultChecked={!!initialData?.is_collected}
+            className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+          />
+          <span className="text-sm font-medium text-gray-700">Vehículo recogido</span>
+        </label>
+      </div>
+
+      {(initialData?.started_at || initialData?.completed_at) && (
+        <div className="bg-gray-50 rounded-lg p-3 text-sm text-gray-600 space-y-1">
+          {initialData.started_at && (
+            <p>
+              <span className="font-medium">Inicio:</span>{' '}
+              {new Date(initialData.started_at).toLocaleString('es-ES')}
+            </p>
+          )}
+          {initialData.completed_at && (
+            <p>
+              <span className="font-medium">Finalizado:</span>{' '}
+              {new Date(initialData.completed_at).toLocaleString('es-ES')}
+            </p>
+          )}
+        </div>
+      )}
 
       <div className="flex items-center gap-4 pt-2">
         <SubmitBtn label={submitLabel} />

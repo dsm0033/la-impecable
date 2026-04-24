@@ -1,9 +1,9 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { CheckCircle2, Circle, Clock, ChevronDown, ChevronRight } from 'lucide-react'
+import { CheckCircle2, Circle, Clock, ChevronDown, ChevronRight, Pause, Play } from 'lucide-react'
 import Link from 'next/link'
-import { actualizarProgreso, completarTrabajo } from '@/app/empleado/actions'
+import { actualizarProgreso, completarTrabajo, iniciarTrabajo } from '@/app/empleado/actions'
 
 function formatTime(seconds) {
   const m = Math.floor(seconds / 60).toString().padStart(2, '0')
@@ -11,10 +11,11 @@ function formatTime(seconds) {
   return `${m}:${s}`
 }
 
-export default function ChecklistInteractivo({ recordId, items, initialProgress, duration, status }) {
+export default function ChecklistInteractivo({ recordId, items, initialProgress, duration, status, startedAt }) {
   const [checked, setChecked] = useState(() => new Set(initialProgress))
   const [seconds, setSeconds] = useState(0)
   const [running, setRunning] = useState(false)
+  const [hasStarted, setHasStarted] = useState(!!startedAt)
   const [saving, setSaving] = useState(false)
   const [completado, setCompletado] = useState(status === 'completado')
   const [openSections, setOpenSections] = useState({})
@@ -48,6 +49,15 @@ export default function ChecklistInteractivo({ recordId, items, initialProgress,
     if (next.has(idx)) next.delete(idx)
     else next.add(idx)
     setChecked(next)
+
+    if (!hasStarted && next.size > 0) {
+      setHasStarted(true)
+      setRunning(true)
+      iniciarTrabajo(recordId)
+    } else if (hasStarted && !running) {
+      setRunning(true)
+    }
+
     setSaving(true)
     await actualizarProgreso(recordId, Array.from(next))
     setSaving(false)
@@ -77,13 +87,15 @@ export default function ChecklistInteractivo({ recordId, items, initialProgress,
           <div className="flex items-center gap-2">
             <Clock size={14} color="#8A9AAC" />
             <span className="text-sm font-mono text-[#E8E6E1]">{formatTime(seconds)}</span>
-            <button
-              onClick={() => setRunning((r) => !r)}
-              disabled={completado}
-              className="text-xs px-3 py-1 rounded-full bg-[#1E2A38] text-[#C9A84C] hover:bg-[#C9A84C] hover:text-[#0A0E14] transition-colors disabled:opacity-40"
-            >
-              {running ? 'Pausar' : 'Iniciar'}
-            </button>
+            {hasStarted && !completado && (
+              <button
+                onClick={() => setRunning((r) => !r)}
+                className="flex items-center gap-1 text-xs px-3 py-1 rounded-full bg-[#1E2A38] text-[#C9A84C] hover:bg-[#C9A84C] hover:text-[#0A0E14] transition-colors"
+              >
+                {running ? <Pause size={12} /> : <Play size={12} />}
+                {running ? 'Pausar' : 'Reanudar'}
+              </button>
+            )}
           </div>
         </div>
         <div className="w-full bg-[#1E2A38] rounded-full h-2.5">

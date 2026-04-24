@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { EliminarBtn } from './_components/EliminarBtn'
+import { Euro, Car } from 'lucide-react'
 
 export const metadata = { title: 'Historial · Admin IMPECABLE' }
 
@@ -23,7 +24,7 @@ export default async function HistorialPage() {
   const { data: registros } = await supabase
     .from('service_records')
     .select(`
-      id, date, price, status, notes,
+      id, date, price, status, notes, is_paid, is_collected, started_at, completed_at,
       customers(full_name),
       services(name),
       employees(full_name)
@@ -63,6 +64,8 @@ export default async function HistorialPage() {
                 <th className="text-left px-6 py-4 text-xs font-medium text-gray-500 uppercase tracking-wide">Empleado</th>
                 <th className="text-left px-6 py-4 text-xs font-medium text-gray-500 uppercase tracking-wide">Precio</th>
                 <th className="text-left px-6 py-4 text-xs font-medium text-gray-500 uppercase tracking-wide">Estado</th>
+                <th className="text-left px-6 py-4 text-xs font-medium text-gray-500 uppercase tracking-wide">Cobrado</th>
+                <th className="text-left px-6 py-4 text-xs font-medium text-gray-500 uppercase tracking-wide">Recogido</th>
                 <th className="px-6 py-4" />
               </tr>
             </thead>
@@ -88,6 +91,12 @@ export default async function HistorialPage() {
                     <span className={`inline-flex px-2 py-1 rounded-full text-xs font-medium capitalize ${ESTADO_STYLES[r.status] ?? 'bg-gray-100 text-gray-500'}`}>
                       {r.status}
                     </span>
+                  </td>
+                  <td className="px-6 py-4">
+                    <Euro size={16} className={r.is_paid ? 'text-green-500' : 'text-gray-300'} />
+                  </td>
+                  <td className="px-6 py-4">
+                    <Car size={16} className={r.is_collected ? 'text-green-500' : 'text-gray-300'} />
                   </td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-4">

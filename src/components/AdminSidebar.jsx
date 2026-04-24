@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, Users, Wrench, UserCheck, ClipboardList, CheckSquare, LogOut, Menu, X } from 'lucide-react'
+import { LayoutDashboard, Users, Wrench, UserCheck, ClipboardList, CheckSquare, LogOut, Menu, X, ExternalLink } from 'lucide-react'
 import { logout } from '@/app/actions/auth'
 
 const NAV = [
@@ -86,7 +86,17 @@ export default function AdminSidebar({ pendingCount = 0 }) {
           })}
         </nav>
 
-        <div className="p-4 border-t border-gray-800">
+        <div className="p-4 border-t border-gray-800 space-y-1">
+          <a
+            href="/empleado"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setMobileOpen(false)}
+            className="flex items-center gap-3 px-3 py-2.5 w-full rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800 transition-colors"
+          >
+            <ExternalLink size={18} />
+            <span className="flex-1">Vista empleado</span>
+          </a>
           <form action={logout}>
             <button
               type="submit"
