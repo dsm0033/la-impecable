@@ -116,6 +116,12 @@
 | Deploy en producción — Vercel + Stripe webhook | ✅ |
 | Emails automáticos con Resend — admin y cliente al confirmar pago | ✅ |
 
+**Notas pendientes (pulir en futura sesión):**
+- Mejorar diseño HTML de los emails (actualmente tabla básica sin estilos)
+- Añadir logo de La Impecable en el email
+- Incluir dirección y teléfono del negocio en el pie del email
+- Stripe en modo test — activar cuenta live cuando se quiera cobrar dinero real
+
 ---
 
 ## 📋 SPRINT 7 — "Portal Empleado Avanzado"
