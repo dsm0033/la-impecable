@@ -17,7 +17,7 @@ export default async function EmpleadosPage() {
 
   const today = new Date().toISOString().split('T')[0]
 
-  const [{ data: empleados }, { data: enTurnoHoy }] = await Promise.all([
+  const [{ data: empleados }, { data: enTurnoHoy }, { data: conHorario }] = await Promise.all([
     supabase
       .from('employees')
       .select('id, full_name, email, phone, position, active, created_at')
@@ -29,9 +29,16 @@ export default async function EmpleadosPage() {
       .eq('business_id', profile?.business_id)
       .eq('date', today)
       .is('clock_out', null),
+    supabase
+      .from('employee_schedules')
+      .select('employee_id')
+      .eq('business_id', profile?.business_id)
+      .is('effective_until', null)
+      .gt('contracted_minutes', 0),
   ])
 
-  const enTurnoIds = new Set((enTurnoHoy ?? []).map(e => e.employee_id))
+  const enTurnoIds   = new Set((enTurnoHoy ?? []).map(e => e.employee_id))
+  const conHorarioIds = new Set((conHorario ?? []).map(s => s.employee_id))
 
   return (
     <div>
@@ -86,6 +93,11 @@ export default async function EmpleadosPage() {
                         <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700">
                           <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
                           En turno
+                        </span>
+                      )}
+                      {e.active && !conHorarioIds.has(e.id) && (
+                        <span className="inline-flex px-2 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-600">
+                          Sin horario
                         </span>
                       )}
                     </div>
