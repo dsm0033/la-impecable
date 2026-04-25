@@ -2,7 +2,8 @@ import { createClient } from '@/lib/supabase/server'
 import { logout } from '@/app/actions/auth'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { ClipboardList, LogOut, Calendar, User, CheckCircle2, LayoutDashboard } from 'lucide-react'
+import { ClipboardList, LogOut, Calendar, User, CheckCircle2, LayoutDashboard, Clock } from 'lucide-react'
+import BotonFichaje from './_components/BotonFichaje'
 
 export const metadata = { title: 'Mis trabajos · IMPECABLE' }
 
@@ -30,10 +31,11 @@ export default async function EmpleadoPage() {
   }
 
   const now = new Date()
+  const today = now.toISOString().split('T')[0]
   const firstDayPrevMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1)
     .toISOString().split('T')[0]
 
-  const [{ data: pendientes }, { data: completados }] = await Promise.all([
+  const [{ data: pendientes }, { data: completados }, { data: fichajeActivo }] = await Promise.all([
     supabase
       .from('service_records')
       .select('id, date, checklist_progress, services(name, duration_minutes), customers(full_name)')
@@ -47,6 +49,13 @@ export default async function EmpleadoPage() {
       .eq('status', 'completado')
       .gte('date', firstDayPrevMonth)
       .order('date', { ascending: false }),
+    supabase
+      .from('time_entries')
+      .select('id, clock_in')
+      .eq('employee_id', employee.id)
+      .eq('date', today)
+      .is('clock_out', null)
+      .maybeSingle(),
   ])
 
   const currentMonth = now.getMonth()
@@ -87,6 +96,13 @@ export default async function EmpleadoPage() {
           <h1 className="font-bold text-lg">{employee.full_name}</h1>
         </div>
         <div className="flex items-center gap-3">
+          <Link
+            href="/empleado/mis-horas"
+            className="flex items-center gap-1 text-sm text-[#C9A84C] hover:text-[#C9A84C]/80 transition-colors"
+          >
+            <Clock size={16} />
+            Mis horas
+          </Link>
           {profile?.role === 'admin' && (
             <Link
               href="/admin"
@@ -106,6 +122,9 @@ export default async function EmpleadoPage() {
       </header>
 
       <div className="max-w-2xl mx-auto px-4 py-8 space-y-10">
+
+        {/* Fichaje */}
+        <BotonFichaje fichajeActivo={fichajeActivo} />
 
         {/* Trabajos pendientes */}
         <section>

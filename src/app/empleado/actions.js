@@ -9,11 +9,11 @@ async function getEmpleadoCtx() {
   if (!user) return null
   const { data: employee } = await supabase
     .from('employees')
-    .select('id')
+    .select('id, business_id')
     .eq('email', user.email)
     .single()
   if (!employee) return null
-  return { supabase, employeeId: employee.id }
+  return { supabase, employeeId: employee.id, businessId: employee.business_id }
 }
 
 export async function actualizarProgreso(recordId, progress) {
@@ -58,4 +58,56 @@ export async function completarTrabajo(recordId) {
     .eq('employee_id', ctx.employeeId)
 
   revalidatePath('/empleado')
+}
+
+export async function ficharEntrada() {
+  const ctx = await getEmpleadoCtx()
+  if (!ctx) return { error: 'No autenticado' }
+
+  const today = new Date().toISOString().split('T')[0]
+
+  // Evitar doble fichaje abierto en el mismo día
+  const { data: abierto } = await ctx.supabase
+    .from('time_entries')
+    .select('id')
+    .eq('employee_id', ctx.employeeId)
+    .eq('date', today)
+    .is('clock_out', null)
+    .maybeSingle()
+
+  if (abierto) return { error: 'Ya estás fichado' }
+
+  await ctx.supabase.from('time_entries').insert({
+    employee_id: ctx.employeeId,
+    business_id: ctx.businessId,
+    clock_in: new Date().toISOString(),
+    date: today,
+  })
+
+  revalidatePath('/empleado')
+}
+
+export async function ficharSalida() {
+  const ctx = await getEmpleadoCtx()
+  if (!ctx) return { error: 'No autenticado' }
+
+  const today = new Date().toISOString().split('T')[0]
+
+  const { data: abierto } = await ctx.supabase
+    .from('time_entries')
+    .select('id')
+    .eq('employee_id', ctx.employeeId)
+    .eq('date', today)
+    .is('clock_out', null)
+    .maybeSingle()
+
+  if (!abierto) return { error: 'No estás fichado' }
+
+  await ctx.supabase
+    .from('time_entries')
+    .update({ clock_out: new Date().toISOString() })
+    .eq('id', abierto.id)
+
+  revalidatePath('/empleado')
+  revalidatePath('/empleado/mis-horas')
 }
