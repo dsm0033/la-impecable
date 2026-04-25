@@ -132,11 +132,11 @@
 | Tarea | Estado |
 |---|---|
 | Historial ampliado: mes en curso y mes anterior con resumen de trabajos | ✅ |
-| Vista "Mis horas" — resumen de horas trabajadas por semana/mes | 📋 |
-| Cálculo automático de horas extra | 📋 |
-| Solicitud de vacaciones desde el portal | 📋 |
-| Admin: gestionar solicitudes de vacaciones | 📋 |
-| Acceso a nóminas (subida de PDF por el admin) | 📋 |
+| Vista "Mis horas" — resumen de horas trabajadas por semana/mes | ✅ |
+| Cálculo automático de horas extra | ✅ |
+| Solicitud de vacaciones desde el portal | ⏸️ pendiente de diseño lógico |
+| Admin: gestionar solicitudes de vacaciones | ⏸️ pendiente de diseño lógico |
+| Acceso a nóminas (subida de PDF por el admin) | 📋 próxima tarea |
 
 ---
 
