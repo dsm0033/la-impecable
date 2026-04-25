@@ -41,15 +41,23 @@ export default async function EditarEmpleadoPage({ params }) {
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-base font-semibold text-gray-900">Horario laboral</h2>
-            <p className="text-sm text-gray-500 mt-0.5">Configura los días y horas contratadas</p>
+            <h2 className="text-base font-semibold text-gray-900">Tiempo de trabajo</h2>
+            <p className="text-sm text-gray-500 mt-0.5">Fichajes, horas trabajadas y horario contratado</p>
           </div>
-          <a
-            href={`/admin/empleados/${id}/horario`}
-            className="px-4 py-2 text-sm font-medium text-blue-600 border border-blue-200 rounded-lg hover:bg-blue-50 transition-colors"
-          >
-            Configurar horario
-          </a>
+          <div className="flex items-center gap-2">
+            <a
+              href={`/admin/empleados/${id}/horas`}
+              className="px-4 py-2 text-sm font-medium text-gray-700 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              Ver horas
+            </a>
+            <a
+              href={`/admin/empleados/${id}/horario`}
+              className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              Configurar horario →
+            </a>
+          </div>
         </div>
       </div>
     </div>

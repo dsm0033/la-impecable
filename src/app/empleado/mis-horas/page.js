@@ -2,34 +2,12 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, Clock } from 'lucide-react'
+import {
+  startOfWeek, calcMinutos, formatHoras, formatDiferencia,
+  formatHora, minutosEntreFechas, jsDayToEs, agruparPorSemana,
+} from '@/lib/horas'
 
 export const metadata = { title: 'Mis horas · IMPECABLE' }
-
-// Primer día de la semana en curso (lunes)
-function startOfWeek(date) {
-  const d = new Date(date)
-  const day = d.getDay() // 0=dom, 1=lun...
-  const diff = day === 0 ? 6 : day - 1
-  d.setDate(d.getDate() - diff)
-  d.setHours(0, 0, 0, 0)
-  return d
-}
-
-function minutosEntreFechas(inicio, fin) {
-  return Math.round((new Date(fin) - new Date(inicio)) / 60000)
-}
-
-function formatHoras(minutos) {
-  if (minutos <= 0) return '0h'
-  const h = Math.floor(minutos / 60)
-  const m = minutos % 60
-  if (h === 0) return `${m}min`
-  return m > 0 ? `${h}h ${m}min` : `${h}h`
-}
-
-function formatHora(iso) {
-  return new Date(iso).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })
-}
 
 export default async function MisHorasPage() {
   const supabase = await createClient()
@@ -47,7 +25,6 @@ export default async function MisHorasPage() {
   const today = now.toISOString().split('T')[0]
   const semanaInicio = startOfWeek(now).toISOString().split('T')[0]
   const mesInicio = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0]
-  // Historial: últimos 2 meses
   const historialInicio = new Date(now.getFullYear(), now.getMonth() - 1, 1).toISOString().split('T')[0]
 
   const [{ data: entradas }, { data: schedules }] = await Promise.all([
@@ -66,56 +43,27 @@ export default async function MisHorasPage() {
   ])
 
   const todas = entradas ?? []
+  const nowStr = now.toISOString()
 
-  // Mapa day_of_week → contracted_minutes (0 = libre)
-  // Conversión JS getDay() [0=dom] → convención española [0=lun]
-  const horario = Object.fromEntries(
-    Array.from({ length: 7 }, (_, i) => [i, 0])
-  )
+  // Mapa day_of_week (0=lun) → minutos contratados
+  const horario = Object.fromEntries(Array.from({ length: 7 }, (_, i) => [i, 0]))
   ;(schedules ?? []).forEach(s => { horario[s.day_of_week] = s.contracted_minutes })
 
-  function jsDayToEs(jsDay) {
-    return jsDay === 0 ? 6 : jsDay - 1
-  }
-
   function contratadosParaDia(dateStr) {
-    const d = new Date(dateStr)
-    return horario[jsDayToEs(d.getDay())] ?? 0
+    return horario[jsDayToEs(new Date(dateStr).getDay())] ?? 0
   }
 
-  // Calcular minutos para un subconjunto de entradas
-  function calcMinutos(lista) {
-    return lista.reduce((acc, e) => {
-      const fin = e.clock_out ?? now.toISOString()
-      return acc + minutosEntreFechas(e.clock_in, fin)
-    }, 0)
-  }
+  const minHoy    = calcMinutos(todas.filter(e => e.date === today), nowStr)
+  const minSemana = calcMinutos(todas.filter(e => e.date >= semanaInicio), nowStr)
+  const minMes    = calcMinutos(todas.filter(e => e.date >= mesInicio), nowStr)
 
-  const minHoy = calcMinutos(todas.filter(e => e.date === today))
-  const minSemana = calcMinutos(todas.filter(e => e.date >= semanaInicio))
-  const minMes = calcMinutos(todas.filter(e => e.date >= mesInicio))
+  const porSemana = agruparPorSemana(todas)
+  const semanas   = Object.entries(porSemana).sort(([a], [b]) => b.localeCompare(a))
 
-  // Agrupar por semana para el listado
-  function getWeekKey(dateStr) {
-    const d = new Date(dateStr)
-    const lunes = startOfWeek(d)
-    return lunes.toISOString().split('T')[0]
-  }
-
-  const porSemana = todas.reduce((acc, e) => {
-    const key = getWeekKey(e.date)
-    if (!acc[key]) acc[key] = []
-    acc[key].push(e)
-    return acc
-  }, {})
-
-  const semanas = Object.entries(porSemana).sort(([a], [b]) => b.localeCompare(a))
-
-  // Tarjetas de resumen
   const resumen = [
-    { label: 'Hoy', valor: formatHoras(minHoy) },
+    { label: 'Hoy',        valor: formatHoras(minHoy) },
     { label: 'Esta semana', valor: formatHoras(minSemana) },
-    { label: 'Este mes', valor: formatHoras(minMes) },
+    { label: 'Este mes',   valor: formatHoras(minMes) },
   ]
 
   return (
@@ -151,13 +99,12 @@ export default async function MisHorasPage() {
         ) : (
           <div className="space-y-6">
             {semanas.map(([lunesStr, entradasSemana]) => {
-              const lunes = new Date(lunesStr)
+              const lunes   = new Date(lunesStr)
               const domingo = new Date(lunes)
               domingo.setDate(lunes.getDate() + 6)
               const labelSemana = `${lunes.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })} – ${domingo.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })}`
-              const minTotalSemana = calcMinutos(entradasSemana)
+              const minTotalSemana = calcMinutos(entradasSemana, nowStr)
 
-              // Agrupar por día dentro de la semana
               const porDia = entradasSemana.reduce((acc, e) => {
                 if (!acc[e.date]) acc[e.date] = []
                 acc[e.date].push(e)
@@ -167,46 +114,56 @@ export default async function MisHorasPage() {
 
               return (
                 <div key={lunesStr}>
-                  {/* Cabecera semana */}
                   <div className="bg-[#111820] border border-[#1E2A38] rounded-xl px-4 py-3 mb-2 flex items-center justify-between">
                     <p className="font-semibold text-[#C9A84C] text-sm">{labelSemana}</p>
                     <p className="text-sm font-semibold text-[#C9A84C]">{formatHoras(minTotalSemana)}</p>
                   </div>
 
-                  {/* Días de la semana */}
-                  <div className="space-y-1">
+                  <div className="space-y-2">
                     {dias.map(([dia, fichajesDia]) => {
-                      const minDia = calcMinutos(fichajesDia)
-                      const labelDia = new Date(dia).toLocaleDateString('es-ES', {
-                        weekday: 'long', day: 'numeric', month: 'long',
-                      })
+                      const minDia      = calcMinutos(fichajesDia, nowStr)
                       const contratados = contratadosParaDia(dia)
-                      const extra = contratados > 0 ? minDia - contratados : null
+                      const extra       = contratados > 0 ? minDia - contratados : null
+                      const diferencia  = extra !== null ? formatDiferencia(extra) : null
+                      const labelDia    = new Date(dia).toLocaleDateString('es-ES', {
+                        weekday: 'long', day: 'numeric', month: 'long',
+                      }).replace(/^\w/, c => c.toUpperCase())
 
                       return (
                         <div key={dia} className="bg-[#111820] border border-[#1E2A38] rounded-xl px-4 py-3">
+                          {/* Cabecera del día */}
                           <div className="flex items-center justify-between mb-2">
-                            <p className="text-sm font-medium text-[#E8E6E1]">{labelDia.replace(/^\w/, c => c.toUpperCase())}</p>
+                            <p className="text-sm font-medium text-[#E8E6E1]">{labelDia}</p>
                             <div className="flex items-center gap-2">
                               <p className="text-sm font-semibold text-[#C9A84C]">{formatHoras(minDia)}</p>
-                              {extra !== null && extra !== 0 && (
-                                <span className={`text-xs px-1.5 py-0.5 rounded font-medium ${extra > 0 ? 'bg-green-500/10 text-green-400' : 'bg-red-500/10 text-red-400'}`}>
-                                  {extra > 0 ? '+' : ''}{formatHoras(extra)}
+                              {diferencia && (
+                                <span className={`text-sm font-semibold px-2 py-0.5 rounded-lg ${
+                                  extra > 0
+                                    ? 'bg-green-500/15 text-green-400'
+                                    : 'bg-red-500/15 text-red-400'
+                                }`}>
+                                  {diferencia}
                                 </span>
                               )}
                             </div>
                           </div>
+
+                          {/* Fichajes del día */}
                           <div className="space-y-1">
                             {fichajesDia.map((e) => (
                               <div key={e.id} className="flex items-center justify-between text-xs text-[#8A9AAC]">
                                 <span>
                                   {formatHora(e.clock_in)} → {e.clock_out ? formatHora(e.clock_out) : 'En curso'}
                                 </span>
-                                <span className="text-[#C9A84C]">{formatHoras(minutosEntreFechas(e.clock_in, e.clock_out ?? now.toISOString()))}</span>
+                                <span className="text-[#C9A84C]">
+                                  {formatHoras(minutosEntreFechas(e.clock_in, e.clock_out ?? nowStr))}
+                                </span>
                               </div>
                             ))}
                             {contratados > 0 && (
-                              <p className="text-xs text-[#8A9AAC]/50 pt-0.5">Jornada: {formatHoras(contratados)}</p>
+                              <p className="text-xs text-[#8A9AAC]/50 pt-1">
+                                Jornada contratada: {formatHoras(contratados)}
+                              </p>
                             )}
                           </div>
                         </div>

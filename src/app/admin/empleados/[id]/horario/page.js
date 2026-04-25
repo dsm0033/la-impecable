@@ -55,12 +55,22 @@ export default async function HorarioPage({ params }) {
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
           <a href="/admin/empleados" className="hover:text-gray-700">Empleados</a>
           <span>/</span>
-          <span>{empleado.full_name}</span>
+          <a href={`/admin/empleados/${id}/editar`} className="hover:text-gray-700">{empleado.full_name}</a>
           <span>/</span>
           <span>Horario</span>
         </div>
-        <h1 className="text-2xl font-bold text-gray-900">Horario laboral</h1>
-        <p className="text-gray-500 mt-1">{empleado.full_name}</p>
+        <div className="flex items-center gap-4">
+          <a
+            href={`/admin/empleados/${id}/editar`}
+            className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+          >
+            ← Volver
+          </a>
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Horario laboral</h1>
+            <p className="text-gray-500 mt-1">{empleado.full_name}</p>
+          </div>
+        </div>
       </div>
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 max-w-lg">
