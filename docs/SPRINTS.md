@@ -100,21 +100,21 @@
 
 ---
 
-## 🔄 SPRINT 6 — "Reservas y Pago"
-**Fechas:** Semanas 11-12 (inicio: 2026-04-24)
+## ✅ SPRINT 6 — "Reservas y Pago"
+**Fechas:** Semanas 11-12 (inicio: 2026-04-24 — finalizado: 2026-04-25)
 **Objetivo:** Sistema de reservas público con pago online via Stripe
-**Nota:** Portal Cliente (historial, facturas) pasa a Sprint 8. El OAuth de Google está implementado pero pendiente de configurar en Supabase/Google Cloud Console.
+**Nota:** Portal Cliente (historial, facturas) pasa a Sprint 8. OAuth de Google pasa a Sprint 8.
 
 | Tarea | Estado |
 |---|---|
-| Login con Google (OAuth) — código listo, pendiente configurar credenciales | 🔄 |
-| Crear perfil automático al primer login con Google (trigger DB) | ✅ |
 | Tabla `bookings` en Supabase | ✅ |
 | Página pública `/reservar` — servicio, fecha, hora, nombre, matrícula | ✅ |
 | Stripe Checkout — pago seguro hospedado por Stripe | ✅ |
 | Página de confirmación tras el pago | ✅ |
 | Webhook de Stripe — confirma reserva en BD al pagar | ✅ |
 | Panel admin: vista de reservas con estado de pago | ✅ |
+| Deploy en producción — Vercel + Stripe webhook | ✅ |
+| Emails automáticos con Resend — admin y cliente al confirmar pago | ✅ |
 
 ---
 
