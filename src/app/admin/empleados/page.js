@@ -15,11 +15,23 @@ export default async function EmpleadosPage() {
     .eq('id', user?.id)
     .single()
 
-  const { data: empleados } = await supabase
-    .from('employees')
-    .select('id, full_name, email, phone, position, active, created_at')
-    .eq('business_id', profile?.business_id)
-    .order('full_name')
+  const today = new Date().toISOString().split('T')[0]
+
+  const [{ data: empleados }, { data: enTurnoHoy }] = await Promise.all([
+    supabase
+      .from('employees')
+      .select('id, full_name, email, phone, position, active, created_at')
+      .eq('business_id', profile?.business_id)
+      .order('full_name'),
+    supabase
+      .from('time_entries')
+      .select('employee_id')
+      .eq('business_id', profile?.business_id)
+      .eq('date', today)
+      .is('clock_out', null),
+  ])
+
+  const enTurnoIds = new Set((enTurnoHoy ?? []).map(e => e.employee_id))
 
   return (
     <div>
@@ -64,11 +76,19 @@ export default async function EmpleadosPage() {
                     {!e.phone && !e.email && '—'}
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`inline-flex px-2 py-1 rounded-full text-xs font-medium ${
-                      e.active ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-500'
-                    }`}>
-                      {e.active ? 'Activo' : 'Inactivo'}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className={`inline-flex px-2 py-1 rounded-full text-xs font-medium ${
+                        e.active ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-500'
+                      }`}>
+                        {e.active ? 'Activo' : 'Inactivo'}
+                      </span>
+                      {enTurnoIds.has(e.id) && (
+                        <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700">
+                          <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+                          En turno
+                        </span>
+                      )}
+                    </div>
                   </td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-4">

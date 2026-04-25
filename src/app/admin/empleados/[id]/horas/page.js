@@ -68,7 +68,7 @@ export default async function HorasEmpleadoPage({ params }) {
   const porSemana = agruparPorSemana(todas)
   const semanas   = Object.entries(porSemana).sort(([a], [b]) => b.localeCompare(a))
 
-  const tieneHorario = (schedules ?? []).length > 0
+  const tieneHorario = (schedules ?? []).some(s => s.contracted_minutes > 0)
 
   const resumen = [
     { label: 'Hoy',         valor: formatHoras(minHoy) },
