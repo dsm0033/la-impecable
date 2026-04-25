@@ -50,15 +50,38 @@ export default async function MisHorasPage() {
   // Historial: últimos 2 meses
   const historialInicio = new Date(now.getFullYear(), now.getMonth() - 1, 1).toISOString().split('T')[0]
 
-  const { data: entradas } = await supabase
-    .from('time_entries')
-    .select('id, date, clock_in, clock_out, notes')
-    .eq('employee_id', employee.id)
-    .gte('date', historialInicio)
-    .order('date', { ascending: false })
-    .order('clock_in', { ascending: false })
+  const [{ data: entradas }, { data: schedules }] = await Promise.all([
+    supabase
+      .from('time_entries')
+      .select('id, date, clock_in, clock_out, notes')
+      .eq('employee_id', employee.id)
+      .gte('date', historialInicio)
+      .order('date', { ascending: false })
+      .order('clock_in', { ascending: false }),
+    supabase
+      .from('employee_schedules')
+      .select('day_of_week, contracted_minutes')
+      .eq('employee_id', employee.id)
+      .is('effective_until', null),
+  ])
 
   const todas = entradas ?? []
+
+  // Mapa day_of_week → contracted_minutes (0 = libre)
+  // Conversión JS getDay() [0=dom] → convención española [0=lun]
+  const horario = Object.fromEntries(
+    Array.from({ length: 7 }, (_, i) => [i, 0])
+  )
+  ;(schedules ?? []).forEach(s => { horario[s.day_of_week] = s.contracted_minutes })
+
+  function jsDayToEs(jsDay) {
+    return jsDay === 0 ? 6 : jsDay - 1
+  }
+
+  function contratadosParaDia(dateStr) {
+    const d = new Date(dateStr)
+    return horario[jsDayToEs(d.getDay())] ?? 0
+  }
 
   // Calcular minutos para un subconjunto de entradas
   function calcMinutos(lista) {
@@ -157,11 +180,21 @@ export default async function MisHorasPage() {
                       const labelDia = new Date(dia).toLocaleDateString('es-ES', {
                         weekday: 'long', day: 'numeric', month: 'long',
                       })
+                      const contratados = contratadosParaDia(dia)
+                      const extra = contratados > 0 ? minDia - contratados : null
+
                       return (
                         <div key={dia} className="bg-[#111820] border border-[#1E2A38] rounded-xl px-4 py-3">
                           <div className="flex items-center justify-between mb-2">
                             <p className="text-sm font-medium text-[#E8E6E1]">{labelDia.replace(/^\w/, c => c.toUpperCase())}</p>
-                            <p className="text-sm font-semibold text-[#C9A84C]">{formatHoras(minDia)}</p>
+                            <div className="flex items-center gap-2">
+                              <p className="text-sm font-semibold text-[#C9A84C]">{formatHoras(minDia)}</p>
+                              {extra !== null && extra !== 0 && (
+                                <span className={`text-xs px-1.5 py-0.5 rounded font-medium ${extra > 0 ? 'bg-green-500/10 text-green-400' : 'bg-red-500/10 text-red-400'}`}>
+                                  {extra > 0 ? '+' : ''}{formatHoras(extra)}
+                                </span>
+                              )}
+                            </div>
                           </div>
                           <div className="space-y-1">
                             {fichajesDia.map((e) => (
@@ -172,6 +205,9 @@ export default async function MisHorasPage() {
                                 <span className="text-[#C9A84C]">{formatHoras(minutosEntreFechas(e.clock_in, e.clock_out ?? now.toISOString()))}</span>
                               </div>
                             ))}
+                            {contratados > 0 && (
+                              <p className="text-xs text-[#8A9AAC]/50 pt-0.5">Jornada: {formatHoras(contratados)}</p>
+                            )}
                           </div>
                         </div>
                       )
