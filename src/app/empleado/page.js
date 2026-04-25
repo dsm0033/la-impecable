@@ -29,6 +29,10 @@ export default async function EmpleadoPage() {
     )
   }
 
+  const now = new Date()
+  const firstDayPrevMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1)
+    .toISOString().split('T')[0]
+
   const [{ data: pendientes }, { data: completados }] = await Promise.all([
     supabase
       .from('service_records')
@@ -38,12 +42,42 @@ export default async function EmpleadoPage() {
       .order('date', { ascending: true }),
     supabase
       .from('service_records')
-      .select('id, date, completed_at, services(name), customers(full_name)')
+      .select('id, date, started_at, completed_at, price, services(name, duration_minutes), customers(full_name)')
       .eq('employee_id', employee.id)
       .eq('status', 'completado')
-      .order('completed_at', { ascending: false })
-      .limit(20),
+      .gte('date', firstDayPrevMonth)
+      .order('date', { ascending: false }),
   ])
+
+  const currentMonth = now.getMonth()
+  const currentYear = now.getFullYear()
+  const prevMonth = currentMonth === 0 ? 11 : currentMonth - 1
+  const prevYear = currentMonth === 0 ? currentYear - 1 : currentYear
+
+  const mesCurso = (completados ?? []).filter(t => {
+    const d = new Date(t.date)
+    return d.getMonth() === currentMonth && d.getFullYear() === currentYear
+  })
+  const mesAnterior = (completados ?? []).filter(t => {
+    const d = new Date(t.date)
+    return d.getMonth() === prevMonth && d.getFullYear() === prevYear
+  })
+
+  function calcMinutos(trabajos) {
+    return trabajos.reduce((acc, t) => {
+      if (t.started_at && t.completed_at) {
+        return acc + Math.round((new Date(t.completed_at) - new Date(t.started_at)) / 60000)
+      }
+      return acc
+    }, 0)
+  }
+  function formatMinutos(min) {
+    if (min === 0) return null
+    const h = Math.floor(min / 60)
+    const m = min % 60
+    if (h === 0) return `${m} min`
+    return m > 0 ? `${h}h ${m}min` : `${h}h`
+  }
 
   return (
     <main className="min-h-screen bg-[#0A0E14] text-[#E8E6E1]">
@@ -133,36 +167,68 @@ export default async function EmpleadoPage() {
         </section>
 
         {/* Historial de trabajos completados */}
-        {completados?.length > 0 && (
-          <section>
-            <div className="flex items-center gap-3 mb-4">
+        {(mesCurso.length > 0 || mesAnterior.length > 0) && (
+          <section className="space-y-6">
+            <div className="flex items-center gap-3">
               <CheckCircle2 size={22} color="#22c55e" />
-              <h2 className="text-lg font-semibold">Trabajos completados</h2>
-              <span className="text-xs text-[#8A9AAC]">(últimos {completados.length})</span>
+              <h2 className="text-lg font-semibold">Historial de trabajos</h2>
             </div>
 
-            <div className="space-y-2">
-              {completados.map((t) => (
-                <div
-                  key={t.id}
-                  className="bg-[#111820] rounded-xl border border-[#1E2A38] px-4 py-3 flex items-center justify-between gap-4"
-                >
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-[#E8E6E1]">{t.services?.name ?? 'Servicio'}</p>
-                    <div className="flex items-center gap-1 mt-0.5 text-xs text-[#8A9AAC]">
-                      <User size={11} />
-                      <span className="truncate">{t.customers?.full_name ?? '—'}</span>
+            {[
+              {
+                label: now.toLocaleString('es-ES', { month: 'long', year: 'numeric' }).replace(/^\w/, c => c.toUpperCase()),
+                trabajos: mesCurso,
+              },
+              {
+                label: new Date(prevYear, prevMonth, 1).toLocaleString('es-ES', { month: 'long', year: 'numeric' }).replace(/^\w/, c => c.toUpperCase()),
+                trabajos: mesAnterior,
+              },
+            ].map(({ label, trabajos }) => {
+              if (trabajos.length === 0) return null
+              const mins = calcMinutos(trabajos)
+              const tiempoStr = formatMinutos(mins)
+              return (
+                <div key={label}>
+                  {/* Resumen del mes */}
+                  <div className="bg-[#111820] border border-[#1E2A38] rounded-xl px-4 py-3 mb-2 flex items-center justify-between">
+                    <p className="font-semibold text-[#C9A84C]">{label}</p>
+                    <div className="flex items-center gap-4 text-sm text-[#8A9AAC]">
+                      <span>{trabajos.length} {trabajos.length === 1 ? 'trabajo' : 'trabajos'}</span>
+                      {tiempoStr && <span>{tiempoStr}</span>}
                     </div>
                   </div>
-                  <div className="text-right shrink-0 text-xs text-[#8A9AAC]">
-                    {t.completed_at
-                      ? new Date(t.completed_at).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
-                      : new Date(t.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
-                    }
+
+                  {/* Lista de trabajos del mes */}
+                  <div className="space-y-2">
+                    {trabajos.map((t) => {
+                      const durMin = t.started_at && t.completed_at
+                        ? Math.round((new Date(t.completed_at) - new Date(t.started_at)) / 60000)
+                        : (t.services?.duration_minutes ?? null)
+                      return (
+                        <div
+                          key={t.id}
+                          className="bg-[#111820] rounded-xl border border-[#1E2A38] px-4 py-3 flex items-center justify-between gap-4"
+                        >
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium text-[#E8E6E1]">{t.services?.name ?? 'Servicio'}</p>
+                            <div className="flex items-center gap-1 mt-0.5 text-xs text-[#8A9AAC]">
+                              <User size={11} />
+                              <span className="truncate">{t.customers?.full_name ?? '—'}</span>
+                            </div>
+                          </div>
+                          <div className="text-right shrink-0 text-xs text-[#8A9AAC] space-y-0.5">
+                            <p>
+                              {new Date(t.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })}
+                            </p>
+                            {durMin !== null && <p>{formatMinutos(durMin)}</p>}
+                          </div>
+                        </div>
+                      )
+                    })}
                   </div>
                 </div>
-              ))}
-            </div>
+              )
+            })}
           </section>
         )}
 

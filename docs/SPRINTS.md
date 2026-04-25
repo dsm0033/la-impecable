@@ -124,13 +124,14 @@
 
 ---
 
-## 📋 SPRINT 7 — "Portal Empleado Avanzado"
-**Fechas:** Semanas 13-14
+## 🔄 SPRINT 7 — "Portal Empleado Avanzado"
+**Fechas:** Semanas 13-14 (inicio: 2026-04-25)
 **Objetivo:** Área personal del empleado: horas, vacaciones y documentos
+**Estado:** EN PROGRESO
 
 | Tarea | Estado |
 |---|---|
-| Historial ampliado: mes en curso y mes anterior con resumen de trabajos | 📋 |
+| Historial ampliado: mes en curso y mes anterior con resumen de trabajos | ✅ |
 | Vista "Mis horas" — resumen de horas trabajadas por semana/mes | 📋 |
 | Cálculo automático de horas extra | 📋 |
 | Solicitud de vacaciones desde el portal | 📋 |
