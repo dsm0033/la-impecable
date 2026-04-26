@@ -134,6 +134,9 @@
 | Historial ampliado: mes en curso y mes anterior con resumen de trabajos | ✅ |
 | Vista "Mis horas" — resumen de horas trabajadas por semana/mes | ✅ |
 | Cálculo automático de horas extra | ✅ |
+| Control de calendario y horario de reservas (business_hours, business_settings, blocked_dates) | ✅ |
+| Panel admin /admin/configuracion/reservas — horario semanal, capacidad, festivos España | ✅ |
+| Slots dinámicos en /reservar — sin overbooking, validación real de disponibilidad | ✅ |
 | Solicitud de vacaciones desde el portal | ⏸️ pendiente de diseño lógico |
 | Admin: gestionar solicitudes de vacaciones | ⏸️ pendiente de diseño lógico |
 | Acceso a nóminas (subida de PDF por el admin) | 📋 próxima tarea |

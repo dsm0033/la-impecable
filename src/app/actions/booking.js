@@ -4,29 +4,41 @@ import Stripe from 'stripe'
 import { createClient } from '@/lib/supabase/server'
 import { createClient as createAdminClient } from '@supabase/supabase-js'
 import { redirect } from 'next/navigation'
-
-const TIME_SLOTS = ['09:00', '10:00', '11:00', '12:00', '13:00', '15:00', '16:00', '17:00', '18:00']
+import { getAvailableSlots } from '@/lib/availability'
 
 export async function crearReserva(prevState, formData) {
-  const service_id    = formData.get('service_id')
-  const customer_name = formData.get('customer_name')?.trim()
-  const license_plate = formData.get('license_plate')?.trim().toUpperCase()
+  const service_id     = formData.get('service_id')
+  const customer_name  = formData.get('customer_name')?.trim()
+  const license_plate  = formData.get('license_plate')?.trim().toUpperCase()
   const customer_email = formData.get('customer_email')?.trim() || null
-  const date          = formData.get('date')
-  const time_slot     = formData.get('time_slot')
+  const date           = formData.get('date')
+  const time_slot      = formData.get('time_slot')
 
   if (!service_id)    return { error: 'Selecciona un servicio.' }
   if (!customer_name) return { error: 'El nombre es obligatorio.' }
   if (!license_plate) return { error: 'La matrícula es obligatoria.' }
   if (!date)          return { error: 'Selecciona una fecha.' }
-  if (!time_slot || !TIME_SLOTS.includes(time_slot)) return { error: 'Selecciona una hora válida.' }
+  if (!time_slot || !/^\d{2}:\d{2}$/.test(time_slot)) return { error: 'Selecciona una hora válida.' }
 
   const today = new Date().toISOString().split('T')[0]
   if (date < today) return { error: 'La fecha no puede ser en el pasado.' }
 
   const supabase = await createClient()
+  const adminSupabase = createAdminClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_ROLE_KEY
+  )
 
-  // Obtener servicio (nombre y precio real para Stripe)
+  // Obtener business_id
+  const { data: businessId } = await supabase.rpc('get_default_business_id')
+  if (!businessId) return { error: 'Error interno. Inténtalo más tarde.' }
+
+  // Validar disponibilidad real (fecha no bloqueada, día abierto, slot libre)
+  const { slots, blocked, closed } = await getAvailableSlots(date, businessId)
+  if (blocked || closed) return { error: 'Este día no está disponible para reservas.' }
+  if (!slots.includes(time_slot)) return { error: 'Esta hora ya no está disponible. Elige otra.' }
+
+  // Obtener servicio
   const { data: service, error: serviceError } = await supabase
     .from('services')
     .select('name, price')
@@ -35,16 +47,6 @@ export async function crearReserva(prevState, formData) {
     .single()
 
   if (serviceError || !service) return { error: 'Servicio no encontrado.' }
-
-  // Obtener business_id
-  const { data: businessId } = await supabase.rpc('get_default_business_id')
-  if (!businessId) return { error: 'Error interno. Inténtalo más tarde.' }
-
-  // Service role para bypass RLS en INSERT público
-  const adminSupabase = createAdminClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.SUPABASE_SERVICE_ROLE_KEY
-  )
 
   // Crear reserva en estado pendiente
   const { data: booking, error: bookingError } = await adminSupabase
@@ -57,8 +59,8 @@ export async function crearReserva(prevState, formData) {
       customer_email,
       date,
       time_slot,
-      price:          service.price,
-      status:         'pendiente',
+      price:  service.price,
+      status: 'pendiente',
     })
     .select('id')
     .single()
@@ -88,7 +90,6 @@ export async function crearReserva(prevState, formData) {
     metadata: { booking_id: booking.id },
   })
 
-  // Guardar stripe_session_id en la reserva
   await adminSupabase
     .from('bookings')
     .update({ stripe_session_id: session.id })

@@ -1,13 +1,39 @@
 'use client'
 
-import { useActionState } from 'react'
+import { useActionState, useState, useEffect } from 'react'
 import { crearReserva } from '@/app/actions/booking'
 
-const TIME_SLOTS = ['09:00', '10:00', '11:00', '12:00', '13:00', '15:00', '16:00', '17:00', '18:00']
-
-export default function BookingForm({ services }) {
+export default function BookingForm({ services, advanceDays = 60 }) {
   const [state, action, pending] = useActionState(crearReserva, undefined)
   const today = new Date().toISOString().split('T')[0]
+  const maxDate = new Date(Date.now() + advanceDays * 86400000).toISOString().split('T')[0]
+
+  const [date, setDate] = useState('')
+  const [slots, setSlots] = useState([])
+  const [slotsLoading, setSlotsLoading] = useState(false)
+  const [slotMessage, setSlotMessage] = useState('')
+
+  useEffect(() => {
+    if (!date) { setSlots([]); setSlotMessage(''); return }
+    setSlotsLoading(true)
+    setSlotMessage('')
+    fetch(`/api/slots?date=${date}`)
+      .then(r => r.json())
+      .then(data => {
+        if (data.blocked || data.closed) {
+          setSlots([])
+          setSlotMessage('No hay disponibilidad para este día.')
+        } else if (!data.slots?.length) {
+          setSlots([])
+          setSlotMessage('No quedan horas libres para este día.')
+        } else {
+          setSlots(data.slots)
+          setSlotMessage('')
+        }
+      })
+      .catch(() => { setSlots([]); setSlotMessage('Error al cargar horarios.') })
+      .finally(() => setSlotsLoading(false))
+  }, [date])
 
   return (
     <form action={action} className="space-y-8">
@@ -22,13 +48,7 @@ export default function BookingForm({ services }) {
               key={s.id}
               className="relative flex flex-col gap-1 p-4 rounded-xl border-2 border-gray-200 cursor-pointer transition-colors hover:border-blue-400 has-[:checked]:border-blue-600 has-[:checked]:bg-blue-50"
             >
-              <input
-                type="radio"
-                name="service_id"
-                value={s.id}
-                required
-                className="sr-only"
-              />
+              <input type="radio" name="service_id" value={s.id} required className="sr-only" />
               <span className="font-semibold text-gray-900">{s.name}</span>
               {s.description && (
                 <span className="text-xs text-gray-500 line-clamp-2">{s.description}</span>
@@ -58,6 +78,9 @@ export default function BookingForm({ services }) {
               type="date"
               required
               min={today}
+              max={maxDate}
+              value={date}
+              onChange={e => setDate(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -65,18 +88,31 @@ export default function BookingForm({ services }) {
             <label htmlFor="time_slot" className="block text-sm font-medium text-gray-700 mb-1">
               Hora
             </label>
-            <select
-              id="time_slot"
-              name="time_slot"
-              required
-              defaultValue=""
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="" disabled>Selecciona una hora</option>
-              {TIME_SLOTS.map(t => (
-                <option key={t} value={t}>{t}</option>
-              ))}
-            </select>
+            {slotsLoading ? (
+              <div className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm text-gray-400 bg-gray-50">
+                Comprobando disponibilidad…
+              </div>
+            ) : slotMessage ? (
+              <div className="w-full px-3 py-2.5 border border-orange-200 bg-orange-50 rounded-lg text-sm text-orange-700">
+                {slotMessage}
+              </div>
+            ) : (
+              <select
+                id="time_slot"
+                name="time_slot"
+                required
+                defaultValue=""
+                disabled={!slots.length}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:bg-gray-50"
+              >
+                <option value="" disabled>
+                  {date ? 'Selecciona una hora' : 'Primero elige una fecha'}
+                </option>
+                {slots.map(t => (
+                  <option key={t} value={t}>{t}</option>
+                ))}
+              </select>
+            )}
           </div>
         </div>
       </section>
@@ -128,12 +164,10 @@ export default function BookingForm({ services }) {
         </div>
       </section>
 
-      {/* Error */}
       {state?.error && (
         <p className="text-sm text-red-600 bg-red-50 px-4 py-3 rounded-lg">{state.error}</p>
       )}
 
-      {/* Submit */}
       <button
         type="submit"
         disabled={pending}

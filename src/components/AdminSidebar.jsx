@@ -3,17 +3,18 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, Users, Wrench, UserCheck, ClipboardList, CheckSquare, LogOut, Menu, X, ExternalLink, CalendarDays } from 'lucide-react'
+import { LayoutDashboard, Users, Wrench, UserCheck, ClipboardList, CheckSquare, LogOut, Menu, X, ExternalLink, CalendarDays, Settings } from 'lucide-react'
 import { logout } from '@/app/actions/auth'
 
 const NAV = [
-  { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/admin/reservas',  label: 'Reservas',   icon: CalendarDays },
-  { href: '/admin/clientes', label: 'Clientes', icon: Users },
-  { href: '/admin/servicios', label: 'Servicios', icon: Wrench },
-  { href: '/admin/empleados', label: 'Empleados', icon: UserCheck },
-  { href: '/admin/historial',   label: 'Historial',   icon: ClipboardList },
-  { href: '/admin/checklists', label: 'Checklists',  icon: CheckSquare },
+  { href: '/admin',                         label: 'Dashboard',    icon: LayoutDashboard },
+  { href: '/admin/reservas',                label: 'Reservas',     icon: CalendarDays },
+  { href: '/admin/clientes',                label: 'Clientes',     icon: Users },
+  { href: '/admin/servicios',               label: 'Servicios',    icon: Wrench },
+  { href: '/admin/empleados',               label: 'Empleados',    icon: UserCheck },
+  { href: '/admin/historial',               label: 'Historial',    icon: ClipboardList },
+  { href: '/admin/checklists',              label: 'Checklists',   icon: CheckSquare },
+  { href: '/admin/configuracion/reservas',  label: 'Configuración', icon: Settings },
 ]
 
 export default function AdminSidebar({ pendingCount = 0 }) {

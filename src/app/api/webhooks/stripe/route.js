@@ -39,6 +39,21 @@ export async function POST(request) {
         .update({ status: 'pagado' })
         .eq('id', bookingId)
 
+      // Crear registro en el historial como Pendiente para que el admin asigne empleado
+      if (booking) {
+        await supabase
+          .from('service_records')
+          .insert({
+            business_id: booking.business_id,
+            service_id:  booking.service_id,
+            date:        booking.date,
+            price:       booking.price,
+            status:      'pendiente',
+            is_paid:     true,
+            notes:       `Reserva online · ${booking.customer_name} · ${booking.license_plate} · ${String(booking.time_slot).slice(0, 5)}`,
+          })
+      }
+
       // Enviar emails si Resend está configurado
       if (process.env.RESEND_API_KEY && booking) {
         const resend = new Resend(process.env.RESEND_API_KEY)
