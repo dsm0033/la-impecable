@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { logout } from '@/app/actions/auth'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { ClipboardList, LogOut, Calendar, User, CheckCircle2, LayoutDashboard, Clock } from 'lucide-react'
+import { ClipboardList, LogOut, Calendar, User, CheckCircle2, LayoutDashboard, Clock, FileText } from 'lucide-react'
 import BotonFichaje from './_components/BotonFichaje'
 
 export const metadata = { title: 'Mis trabajos · IMPECABLE' }
@@ -102,6 +102,13 @@ export default async function EmpleadoPage() {
           >
             <Clock size={16} />
             Mis horas
+          </Link>
+          <Link
+            href="/empleado/nominas"
+            className="flex items-center gap-1 text-sm text-[#C9A84C] hover:text-[#C9A84C]/80 transition-colors"
+          >
+            <FileText size={16} />
+            Nóminas
           </Link>
           {profile?.role === 'admin' && (
             <Link
