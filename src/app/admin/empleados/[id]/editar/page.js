@@ -1,4 +1,6 @@
 import { notFound } from 'next/navigation'
+import Link from 'next/link'
+import { ArrowLeft } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import { EmpleadoForm } from '../../_components/EmpleadoForm'
 import { editarEmpleado } from '../../actions'
@@ -30,6 +32,13 @@ export default async function EditarEmpleadoPage({ params }) {
   return (
     <div className="space-y-6">
       <div className="mb-2">
+        <Link
+          href="/admin/empleados"
+          className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-900 transition-colors mb-3"
+        >
+          <ArrowLeft size={16} />
+          Empleados
+        </Link>
         <h1 className="text-2xl font-bold text-gray-900">Editar empleado</h1>
         <p className="text-gray-500 mt-1">{empleado.full_name}</p>
       </div>

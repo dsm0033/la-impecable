@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
-import { toggleEmpleado } from './actions'
-import { EliminarBtn } from './_components/EliminarBtn'
+import EmpleadosTable from './_components/EmpleadosTable'
 
 export const metadata = { title: 'Empleados · Admin IMPECABLE' }
 
@@ -37,8 +36,8 @@ export default async function EmpleadosPage() {
       .gt('contracted_minutes', 0),
   ])
 
-  const enTurnoIds   = new Set((enTurnoHoy ?? []).map(e => e.employee_id))
-  const conHorarioIds = new Set((conHorario ?? []).map(s => s.employee_id))
+  const enTurnoIds    = (enTurnoHoy ?? []).map(e => e.employee_id)
+  const conHorarioIds = (conHorario  ?? []).map(s => s.employee_id)
 
   return (
     <div>
@@ -62,73 +61,11 @@ export default async function EmpleadosPage() {
             <p className="text-sm mt-1">Pulsa "Nuevo empleado" para añadir el primero</p>
           </div>
         ) : (
-          <table className="w-full min-w-[650px]">
-            <thead>
-              <tr className="border-b border-gray-100">
-                <th className="text-left px-6 py-4 text-xs font-medium text-gray-500 uppercase tracking-wide">Nombre</th>
-                <th className="text-left px-6 py-4 text-xs font-medium text-gray-500 uppercase tracking-wide">Puesto</th>
-                <th className="text-left px-6 py-4 text-xs font-medium text-gray-500 uppercase tracking-wide">Contacto</th>
-                <th className="text-left px-6 py-4 text-xs font-medium text-gray-500 uppercase tracking-wide">Estado</th>
-                <th className="px-6 py-4" />
-              </tr>
-            </thead>
-            <tbody>
-              {empleados.map((e) => (
-                <tr key={e.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                  <td className="px-6 py-4 text-sm font-medium text-gray-900">{e.full_name}</td>
-                  <td className="px-6 py-4 text-sm text-gray-500">{e.position || '—'}</td>
-                  <td className="px-6 py-4 text-sm text-gray-500">
-                    {e.phone && <div>{e.phone}</div>}
-                    {e.email && <div>{e.email}</div>}
-                    {!e.phone && !e.email && '—'}
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-2">
-                      <span className={`inline-flex px-2 py-1 rounded-full text-xs font-medium ${
-                        e.active ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-500'
-                      }`}>
-                        {e.active ? 'Activo' : 'Inactivo'}
-                      </span>
-                      {enTurnoIds.has(e.id) && (
-                        <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700">
-                          <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-                          En turno
-                        </span>
-                      )}
-                      {e.active && !conHorarioIds.has(e.id) && (
-                        <span className="inline-flex px-2 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-600">
-                          Sin horario
-                        </span>
-                      )}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-right">
-                    <div className="flex items-center justify-end gap-4">
-                      <form action={toggleEmpleado.bind(null, e.id, e.active)}>
-                        <button
-                          type="submit"
-                          className={`text-xs font-medium px-3 py-1.5 rounded-lg border transition-colors ${
-                            e.active
-                              ? 'border-gray-200 text-gray-500 hover:bg-gray-50'
-                              : 'border-green-200 text-green-600 hover:bg-green-50'
-                          }`}
-                        >
-                          {e.active ? 'Desactivar' : 'Activar'}
-                        </button>
-                      </form>
-                      <Link
-                        href={`/admin/empleados/${e.id}/editar`}
-                        className="text-blue-500 hover:text-blue-700 text-sm transition-colors"
-                      >
-                        Editar
-                      </Link>
-                      <EliminarBtn id={e.id} />
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <EmpleadosTable
+            empleados={empleados}
+            enTurnoIds={enTurnoIds}
+            conHorarioIds={conHorarioIds}
+          />
         )}
       </div>
     </div>
