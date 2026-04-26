@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, Users, Wrench, UserCheck, ClipboardList, CheckSquare, LogOut, Menu, X, ExternalLink, CalendarDays, Clock } from 'lucide-react'
+import { LayoutDashboard, Users, Wrench, UserCheck, ClipboardList, CheckSquare, LogOut, Menu, X, ExternalLink, CalendarDays, Clock, Palmtree } from 'lucide-react'
 import { logout } from '@/app/actions/auth'
 
 const NAV = [
@@ -15,9 +15,10 @@ const NAV = [
   { href: '/admin/historial',               label: 'Historial',    icon: ClipboardList },
   { href: '/admin/checklists',              label: 'Checklists',   icon: CheckSquare },
   { href: '/admin/configuracion/reservas',  label: 'Calendario',    icon: Clock },
+  { href: '/admin/configuracion/vacaciones', label: 'Vacaciones',   icon: Palmtree },
 ]
 
-export default function AdminSidebar({ pendingCount = 0 }) {
+export default function AdminSidebar({ pendingCount = 0, vacationPendingCount = 0 }) {
   const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
 
@@ -81,6 +82,11 @@ export default function AdminSidebar({ pendingCount = 0 }) {
                 {href === '/admin/historial' && pendingCount > 0 && (
                   <span className="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center leading-none">
                     {pendingCount}
+                  </span>
+                )}
+                {href === '/admin/configuracion/vacaciones' && vacationPendingCount > 0 && (
+                  <span className="bg-yellow-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center leading-none">
+                    {vacationPendingCount}
                   </span>
                 )}
               </Link>

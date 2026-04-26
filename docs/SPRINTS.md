@@ -1,5 +1,5 @@
 # 🏃 SPRINTS — IMPECABLE
-*Última actualización: 24 Abril 2026*
+*Última actualización: 26 Abril 2026*
 
 ## Metodología
 - Sprints de 2 semanas
@@ -137,9 +137,9 @@
 | Control de calendario y horario de reservas (business_hours, business_settings, blocked_dates) | ✅ |
 | Panel admin /admin/configuracion/reservas — horario semanal, capacidad, festivos España | ✅ |
 | Slots dinámicos en /reservar — sin overbooking, validación real de disponibilidad | ✅ |
-| Solicitud de vacaciones desde el portal | ⏸️ pendiente de diseño lógico |
-| Admin: gestionar solicitudes de vacaciones | ⏸️ pendiente de diseño lógico |
-| Acceso a nóminas (subida de PDF por el admin) | 📋 próxima tarea |
+| Acceso a nóminas (subida de PDF por el admin, descarga en portal) | ✅ |
+| Solicitud de vacaciones desde el portal | ✅ |
+| Admin: gestionar solicitudes de vacaciones | ✅ |
 
 ---
 
@@ -155,14 +155,24 @@
 
 ---
 
-## 📋 SPRINT 9 — "Facturación"
+## 📋 SPRINT 9 — "Facturación y Nóminas Automáticas"
 **Fechas:** Semanas 17-18
-**Objetivo:** Generación automática de facturas con IVA correcto
+**Objetivo:** Generación automática de facturas + cálculo y generación de nóminas
+
+| Tarea | Estado |
+|---|---|
+| Generación automática de facturas con IVA correcto | 📋 |
+| Cálculo automático de nómina (base, IRPF, SS) | 📋 |
+| Generación de PDF de nómina desde la app | 📋 |
+| Gestión de contratos y categorías profesionales | 📋 |
+| Exportación a formatos contables (A3, Contaplus…) | 📋 |
+
+**Nota clave (Diego, 26/04/2026):** La generación y gestión de nóminas es un **filón de negocio y diferenciador SaaS clave**. Automatizar lo que hoy hace un gestor externo (cálculo SS, IRPF, PDF legal) directamente en la plataforma es uno de los mayores valores para el sector. Priorizar cuando lleguemos a esta fase.
 
 ---
 
-## 📋 SPRINT 9-12 — "SaaS"
-**Fechas:** Semanas 17-24
+## 📋 SPRINT 10-12 — "SaaS"
+**Fechas:** Semanas 19-24
 **Objetivo:** Plataforma exportable a otros negocios
 
 ---
