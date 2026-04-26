@@ -63,7 +63,7 @@
 
 ---
 
-## 🔄 SPRINT 4 — "Panel Admin"
+## ✅ SPRINT 4 — "Panel Admin"
 **Fechas:** Semanas 7-8 (inicio: 2026-04-23)
 **Objetivo:** Panel de administración básico para Diego
 **Estado:** COMPLETADO
@@ -140,6 +140,11 @@
 | Acceso a nóminas (subida de PDF por el admin, descarga en portal) | ✅ |
 | Solicitud de vacaciones desde el portal | ✅ |
 | Admin: gestionar solicitudes de vacaciones | ✅ |
+
+**Extras completados:**
+- Módulo vacaciones completo: blackouts, antelación mínima (Art. 38 ET), creación manual por admin
+- Fix seguridad: layout admin verifica rol, RLS con auth.email()
+- UX empleados: lista con filas clicables + flecha volver en ficha
 
 ---
 
