@@ -124,10 +124,10 @@
 
 ---
 
-## 🔄 SPRINT 7 — "Portal Empleado Avanzado"
-**Fechas:** Semanas 13-14 (inicio: 2026-04-25)
+## ✅ SPRINT 7 — "Portal Empleado Avanzado"
+**Fechas:** Semanas 13-14 (inicio: 2026-04-25 — finalizado: 2026-04-26)
 **Objetivo:** Área personal del empleado: horas, vacaciones y documentos
-**Estado:** EN PROGRESO
+**Estado:** COMPLETADO
 
 | Tarea | Estado |
 |---|---|
