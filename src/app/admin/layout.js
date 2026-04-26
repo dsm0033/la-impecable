@@ -13,9 +13,11 @@ export default async function AdminLayout({ children }) {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('business_id')
+    .select('role, business_id')
     .eq('id', user.id)
     .single()
+
+  if (profile?.role !== 'admin') redirect('/empleado')
 
   const [{ count: pendingCount }, { count: vacationPendingCount }] = await Promise.all([
     supabase
