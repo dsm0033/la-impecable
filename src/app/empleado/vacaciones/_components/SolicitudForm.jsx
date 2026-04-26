@@ -16,7 +16,7 @@ function countWorkingDays(start, end) {
   return n
 }
 
-export default function SolicitudForm({ action }) {
+export default function SolicitudForm({ action, minDate = '', noticeDays = 30 }) {
   const [state, formAction, pending] = useActionState(action, undefined)
   const [start, setStart] = useState('')
   const [end,   setEnd]   = useState('')
@@ -36,6 +36,7 @@ export default function SolicitudForm({ action }) {
           name="start_date"
           value={start}
           onChange={handleStartChange}
+          min={minDate}
         />
         <DatePicker
           label="Fecha fin"

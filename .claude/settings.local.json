@@ -8,7 +8,19 @@
       "Bash(node *)",
       "Bash(git restore *)",
       "Bash(git commit *)",
-      "Bash(supabase --version)"
+      "Bash(supabase --version)",
+      "Bash(npx supabase *)",
+      "PowerShell(stripe *)",
+      "PowerShell(Get-Command *)",
+      "PowerShell(winget show *)",
+      "Bash(nslookup *)",
+      "WebSearch",
+      "WebFetch(domain:espanalaboral.es)",
+      "WebFetch(domain:afinom.es)",
+      "WebFetch(domain:loentiendo.com)",
+      "WebFetch(domain:date.nager.at)",
+      "WebFetch(domain:github.com)",
+      "Bash(npm run *)"
     ]
   }
 }

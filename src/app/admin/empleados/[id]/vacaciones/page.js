@@ -2,7 +2,8 @@ import { notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import GestionForm from './_components/GestionForm'
 import EntitlementForm from './_components/EntitlementForm'
-import { aprobarSolicitud, rechazarSolicitud, actualizarEntitlement } from './actions'
+import ManualRequestForm from './_components/ManualRequestForm'
+import { aprobarSolicitud, rechazarSolicitud, actualizarEntitlement, crearSolicitudManual } from './actions'
 
 export const metadata = { title: 'Vacaciones · Admin IMPECABLE' }
 
@@ -49,9 +50,10 @@ export default async function VacacionesAdminPage({ params }) {
   const totalDays     = (entitlement?.total_days ?? 22) + (entitlement?.carryover_days ?? 0)
   const remainingDays = totalDays - usedDays
 
-  const aprobarActions  = enrichedRequests.map(r => aprobarSolicitud.bind(null, r.id))
-  const rechazarActions = enrichedRequests.map(r => rechazarSolicitud.bind(null, r.id))
+  const aprobarActions    = enrichedRequests.map(r => aprobarSolicitud.bind(null, r.id))
+  const rechazarActions   = enrichedRequests.map(r => rechazarSolicitud.bind(null, r.id))
   const entitlementAction = actualizarEntitlement.bind(null, id)
+  const manualAction      = crearSolicitudManual.bind(null, id)
 
   return (
     <div>
@@ -104,6 +106,15 @@ export default async function VacacionesAdminPage({ params }) {
           aprobarActions={aprobarActions}
           rechazarActions={rechazarActions}
         />
+      </div>
+
+      {/* Crear vacaciones manualmente */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <h2 className="text-base font-semibold text-gray-900 mb-1">Crear vacaciones manualmente</h2>
+        <p className="text-sm text-gray-500 mb-4">
+          Omite la restricción de antelación. Se aprueba directamente. Útil para acuerdos urgentes o excepciones.
+        </p>
+        <ManualRequestForm action={manualAction} />
       </div>
     </div>
   )

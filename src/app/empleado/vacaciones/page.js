@@ -34,7 +34,7 @@ export default async function VacacionesEmpleadoPage() {
 
   const year = new Date().getFullYear()
 
-  const [{ data: entitlement }, { data: requests }, { data: blackouts }] = await Promise.all([
+  const [{ data: entitlement }, { data: requests }, { data: blackouts }, { data: settings }] = await Promise.all([
     supabase
       .from('vacation_entitlements')
       .select('total_days, carryover_days')
@@ -52,7 +52,17 @@ export default async function VacacionesEmpleadoPage() {
       .eq('business_id', employee.business_id)
       .gte('end_date', new Date().toISOString().split('T')[0])
       .order('start_date'),
+    supabase
+      .from('business_settings')
+      .select('min_vacation_notice_days')
+      .eq('business_id', employee.business_id)
+      .maybeSingle(),
   ])
+
+  const noticeDays = settings?.min_vacation_notice_days ?? 30
+  const minDate = new Date()
+  minDate.setDate(minDate.getDate() + noticeDays)
+  const minDateStr = minDate.toISOString().split('T')[0]
 
   const totalDays  = (entitlement?.total_days ?? 22) + (entitlement?.carryover_days ?? 0)
   const usedDays   = (requests ?? []).filter(r => r.status === 'aprobada' && new Date(r.start_date).getFullYear() === year)
@@ -96,8 +106,16 @@ export default async function VacacionesEmpleadoPage() {
             <Palmtree size={20} color="#C9A84C" />
             <h2 className="font-semibold text-lg">Solicitar vacaciones</h2>
           </div>
-          <div className="bg-[#111820] border border-[#1E2A38] rounded-xl p-5">
-            <SolicitudForm action={solicitarVacaciones} />
+          <div className="bg-[#111820] border border-[#1E2A38] rounded-xl p-5 space-y-4">
+            <div className="flex gap-2.5 px-3 py-2.5 bg-[#C9A84C]/10 border border-[#C9A84C]/20 rounded-lg">
+              <span className="text-[#C9A84C] text-sm shrink-0">ℹ</span>
+              <p className="text-xs text-[#C9A84C]/80 leading-relaxed">
+                Las vacaciones deben solicitarse con al menos <strong className="text-[#C9A84C]">{noticeDays} días de antelación</strong>.
+                Según el Art. 38 del Estatuto de los Trabajadores, la empresa debe comunicar
+                el calendario vacacional con 2 meses de antelación.
+              </p>
+            </div>
+            <SolicitudForm action={solicitarVacaciones} minDate={minDateStr} noticeDays={noticeDays} />
           </div>
         </section>
 

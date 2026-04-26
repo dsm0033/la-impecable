@@ -16,11 +16,12 @@ async function getAdminContext() {
 
 export async function guardarConfigVacaciones(prevState, formData) {
   const { supabase, businessId } = await getAdminContext()
-  const max_concurrent_vacations = parseInt(formData.get('max_concurrent_vacations') || '1')
+  const max_concurrent_vacations  = parseInt(formData.get('max_concurrent_vacations') || '1')
+  const min_vacation_notice_days  = parseInt(formData.get('min_vacation_notice_days') || '30')
 
   const { error } = await supabase
     .from('business_settings')
-    .update({ max_concurrent_vacations })
+    .update({ max_concurrent_vacations, min_vacation_notice_days })
     .eq('business_id', businessId)
 
   if (error) return { error: 'No se pudo guardar la configuración.' }

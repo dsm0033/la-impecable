@@ -39,6 +39,22 @@ export async function solicitarVacaciones(prevState, formData) {
   const today = new Date().toISOString().split('T')[0]
   if (start_date <= today) return { error: 'Las vacaciones deben solicitarse para fechas futuras.' }
 
+  // Verificar antelación mínima
+  const { data: settings } = await supabase
+    .from('business_settings')
+    .select('min_vacation_notice_days')
+    .eq('business_id', employee.business_id)
+    .maybeSingle()
+
+  const noticeDays = settings?.min_vacation_notice_days ?? 30
+  const minDate = new Date()
+  minDate.setDate(minDate.getDate() + noticeDays)
+  const minDateStr = minDate.toISOString().split('T')[0]
+
+  if (start_date < minDateStr) {
+    return { error: `Debes solicitar las vacaciones con al menos ${noticeDays} días de antelación (Art. 38 ET).` }
+  }
+
   // Verificar blackouts
   const { data: blackouts } = await supabase
     .from('vacation_blackouts')

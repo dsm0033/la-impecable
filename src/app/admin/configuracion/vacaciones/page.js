@@ -42,12 +42,13 @@ export default async function ConfigVacacionesPage() {
       .order('start_date'),
     supabase
       .from('business_settings')
-      .select('max_concurrent_vacations')
+      .select('max_concurrent_vacations, min_vacation_notice_days')
       .eq('business_id', profile.business_id)
       .maybeSingle(),
   ])
 
   const maxConcurrent = settings?.max_concurrent_vacations ?? 1
+  const noticeDays    = settings?.min_vacation_notice_days ?? 30
 
   // Detectar solapamiento: ¿hay ya maxConcurrent aprobadas en las fechas de cada pendiente?
   const { data: approved } = await supabase
@@ -93,7 +94,7 @@ export default async function ConfigVacacionesPage() {
       {/* Configuración */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
         <h2 className="text-base font-semibold text-gray-900 mb-4">Configuración</h2>
-        <ConfigVacacionesForm action={guardarConfigVacaciones} maxConcurrent={maxConcurrent} />
+        <ConfigVacacionesForm action={guardarConfigVacaciones} maxConcurrent={maxConcurrent} noticeDays={noticeDays} />
       </div>
 
       {/* Períodos bloqueados */}

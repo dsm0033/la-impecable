@@ -44,6 +44,43 @@ export async function rechazarSolicitud(requestId, prevState, formData) {
   return { ok: true }
 }
 
+export async function crearSolicitudManual(employeeId, prevState, formData) {
+  const { supabase, businessId } = await getAdminContext()
+
+  const start_date  = formData.get('start_date')
+  const end_date    = formData.get('end_date')
+  const admin_notes = formData.get('admin_notes') || null
+
+  if (!start_date || !end_date) return { error: 'Selecciona un rango de fechas.' }
+  if (end_date < start_date)    return { error: 'La fecha de fin debe ser posterior al inicio.' }
+
+  let working_days = 0
+  const cur = new Date(start_date)
+  const fin = new Date(end_date)
+  while (cur <= fin) {
+    const d = cur.getDay()
+    if (d !== 0 && d !== 6) working_days++
+    cur.setDate(cur.getDate() + 1)
+  }
+  if (working_days === 0) return { error: 'El rango no incluye días laborables.' }
+
+  const { error } = await supabase
+    .from('vacation_requests')
+    .insert({
+      employee_id:  employeeId,
+      business_id:  businessId,
+      start_date,
+      end_date,
+      working_days,
+      status:       'aprobada',
+      admin_notes,
+    })
+
+  if (error) return { error: 'No se pudo crear la solicitud.' }
+  revalidatePath('/admin/empleados/[id]/vacaciones', 'page')
+  return { ok: true, working_days }
+}
+
 export async function actualizarEntitlement(employeeId, prevState, formData) {
   const { supabase, businessId } = await getAdminContext()
   const year          = parseInt(formData.get('year'))
